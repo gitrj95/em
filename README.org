@@ -1,13 +1,21 @@
 * packages
-** completing read
+** completion
 *** vertico
+completion ui
 *** orderless
+completion style
+any order
 *** marginalia
+minibuffer annotations
 *** consult
+general commands
 *** embark
+quick actions on point
 ** devtools
-*** elogt
-*** magit
+*** wgrep
+writable grep buffers
+*** eglot
+lsp client
 ** aesthetics
 *** modus-themes
-* installation
+[[https://www.w3.org/WAI/WCAG2AAA-Conformance][wcag aaa]] conformant. one dark, one light. defaults to dark
