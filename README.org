@@ -1,0 +1,13 @@
+* packages
+** completing read
+*** vertico
+*** orderless
+*** marginalia
+*** consult
+*** embark
+** devtools
+*** elogt
+*** magit
+** aesthetics
+*** modus-themes
+* installation
