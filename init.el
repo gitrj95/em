@@ -5,7 +5,13 @@
 (defun global-map-set-kbd (cmd-string fcn)
   (define-key global-map (kbd cmd-string) fcn))
 
+(require 'package)
+(setq package-selected-packages
+      '(modus-themes vertico orderless marginalia))
+(package-initialize)
+
 (require 'org)
+(require 'org-tempo)
 (global-map-set-kbd "C-c a" #'org-agenda)
 (global-map-set-kbd "C-c c" #'org-capture)
 (global-map-set-kbd "C-c l" #'org-store-link)
@@ -16,19 +22,6 @@
 (global-map-set-kbd "C-M-<down>" #'windmove-down)
 (global-map-set-kbd "C-M-<left>" #'windmove-left)
 (global-map-set-kbd "C-M-<right>" #'windmove-right)
-
-(require 'package)
-(setq em-package-directory
-      (concat user-emacs-directory "pkg/"))
-(push em-package-directory package-directory-list)
-(package-initialize)
-
-(defun install-file-or-require (filename)
-  (unless (package-installed-p filename)
-    (package-install-file filename)))
-(let ((packages (directory-files em-package-directory nil ".tar")))
-  (defalias 'concat-em (apply-partially #'concat em-package-directory))
-  (mapcar #'install-file-or-require (mapcar #'concat-em packages)))
 
 (setq-default line-spacing .1)
 (setq-default scroll-preserve-screen-position t)
@@ -42,3 +35,13 @@
 
 (require 'vertico)
 (vertico-mode)
+
+(require 'marginalia)
+(marginalia-mode)
+
+(require 'orderless)
+(setq completion-styles '(orderless)
+      completion-category-defaults nil
+      orderless-matching-styles '(orderless-literal orderless-regexp orderless-initialism)
+      completion-category-overrides '((file (styles basic partial-completion)))
+      enable-recursive-minibuffers t)
