@@ -6,5 +6,4 @@ install:
 clean:
 	rm -rf ~/.emacs.d/*
 
-.PHONY = install
-
+.PHONY = install clean

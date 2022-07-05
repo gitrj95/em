@@ -1,10 +1,10 @@
-;;;; em base
+;;;; em init
 ;;;; rj
 
 
 (require 'package)
 (setq package-selected-packages
-      '(modus-themes vertico orderless marginalia consult embark embark-consult eglot))
+      '(modus-themes vertico orderless marginalia compat consult embark embark-consult eglot))
 (package-initialize)
 
 (defun global-map-set-kbd (cmd-string fcn)
@@ -88,8 +88,6 @@
 (require 'embark-consult)
 (add-hook 'embark-collect-mode-hook #'consult-preview-at-point-mode)
 
-(setq em-etc-directory (file-truename "etc/"))
-(unless (file-directory-p em-etc-directory)
-  (make-directory em-etc-directory))
-(mapcar #'load
-	(directory-files em-etc-directory t "elc?$"))
+(setq em-etc-directory
+      (file-truename (concat user-emacs-directory "etc/")))
+(mapcar #'load (directory-files em-etc-directory t "elc?$"))
