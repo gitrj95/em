@@ -88,6 +88,12 @@
 (require 'embark-consult)
 (add-hook 'embark-collect-mode-hook #'consult-preview-at-point-mode)
 
+(mapcar
+ (lambda (pkg)
+   (require pkg))
+ '(jsonrpc project xref flymake eldoc))
+(require 'eglot)
+
 (setq em-etc-directory
       (file-truename (concat user-emacs-directory "etc/")))
 (mapcar #'load (directory-files em-etc-directory t "elc?$"))
