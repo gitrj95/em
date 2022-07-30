@@ -4,7 +4,7 @@
 
 (require 'package)
 (setq package-selected-packages
-      '(modus-themes vertico orderless marginalia compat consult embark embark-consult eglot))
+      '(modus-themes vertico orderless marginalia embark))
 (setq em-etc-directory (file-truename "etc/"))
 (unless (file-directory-p em-etc-directory)
   (make-directory em-etc-directory))
