@@ -4,7 +4,7 @@
 
 (require 'package)
 (setq package-selected-packages
-      '(modus-themes vertico orderless marginalia compat consult embark embark-consult eglot))
+      '(modus-themes vertico orderless marginalia compat consult embark embark-consult))
 (package-initialize)
 
 (defun global-map-set-kbd (cmd-string fcn)
@@ -55,16 +55,14 @@
 (require 'consult)
 (recentf-mode)
 (global-map-set-kbd "C-x C-b" #'ibuffer)
-(global-map-set-kbd "C-x b" #'consult-buffer)
-(global-map-set-kbd "M-g m" #'consult-mark)
-(global-map-set-kbd "M-g M" #'consult-global-mark)
+(global-map-set-kbd "M-s O" #'multi-occur)
 (global-map-set-kbd "M-g i" #'consult-imenu)
 (global-map-set-kbd "M-g I" #'consult-imenu-multi)
+(global-map-set-kbd "M-s l" #'consult-line)
+(global-map-set-kbd "M-s L" #'consult-line-multi)
+(global-map-set-kbd "M-s k" #'consult-keep-lines)
 (global-map-set-kbd "C-h a" #'consult-apropos)
 (global-map-set-kbd "C-h d" #'consult-man)
-(global-map-set-kbd "C-x r r" #'consult-register)
-(global-map-set-kbd "C-x r s" #'consult-register-store)
-(global-map-set-kbd "C-x r l" #'consult-register-load)
 (setq completion-in-region-function
       (lambda (&rest args)
         (apply (if vertico-mode
@@ -87,12 +85,6 @@
 
 (require 'embark-consult)
 (add-hook 'embark-collect-mode-hook #'consult-preview-at-point-mode)
-
-(mapcar
- (lambda (pkg)
-   (require pkg))
- '(jsonrpc project xref flymake eldoc))
-(require 'eglot)
 
 (setq em-etc-directory
       (file-truename (concat user-emacs-directory "etc/")))
