@@ -4,7 +4,7 @@
 
 (require 'package)
 (setq package-selected-packages
-      '(modus-themes vertico orderless marginalia compat consult embark embark-consult))
+      '(modus-themes vertico orderless marginalia embark))
 (package-initialize)
 
 (defun global-map-set-kbd (cmd-string fcn)
@@ -40,51 +40,25 @@
 (require 'savehist)
 
 (require 'vertico)
+(recentf-mode)
+(savehist-mode)
 (vertico-mode)
 
 (require 'marginalia)
 (marginalia-mode)
 
 (require 'orderless)
-(setq completion-styles '(orderless)
-      completion-category-defaults nil
-      orderless-matching-styles '(orderless-literal orderless-regexp orderless-initialism)
-      completion-category-overrides '((file (styles basic partial-completion)))
-      enable-recursive-minibuffers t)
+(setq completion-styles '(orderless basic)
+      completion-category-overrides '((file (styles basic partial-completion))))
 
-(require 'consult)
-(recentf-mode)
 (global-map-set-kbd "C-x C-b" #'ibuffer)
 (global-map-set-kbd "M-s O" #'multi-occur)
-(global-map-set-kbd "M-g i" #'consult-imenu)
-(global-map-set-kbd "M-g I" #'consult-imenu-multi)
-(global-map-set-kbd "M-s l" #'consult-line)
-(global-map-set-kbd "M-s L" #'consult-line-multi)
-(global-map-set-kbd "M-s k" #'consult-keep-lines)
-(global-map-set-kbd "C-h a" #'consult-apropos)
-(global-map-set-kbd "C-h d" #'consult-man)
-(setq completion-in-region-function
-      (lambda (&rest args)
-        (apply (if vertico-mode
-                   #'consult-completion-in-region
-                 #'completion--in-region)
-               args)))
-(setq consult-project-root-function
-      (lambda ()
-        (when-let (project (project-current))
-          (car (project-roots project)))))
-(advice-add #'register-preview :override #'consult-register-window)
-(advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
-(setq xref-show-xrefs-function #'consult-xref
-      xref-show-definitions-function #'consult-xref)
+(global-map-set-kbd "M-g i" #'imenu)
 
 (require 'embark)
 (setq-default prefix-help-command #'embark-prefix-help-command)
 (global-map-set-kbd "C-c e a" #'embark-act)
 (global-map-set-kbd "C-c e d" #'embark-dwim)
-
-(require 'embark-consult)
-(add-hook 'embark-collect-mode-hook #'consult-preview-at-point-mode)
 
 (setq em-etc-directory
       (file-truename (concat user-emacs-directory "etc/")))
