@@ -4,7 +4,8 @@
 
 (require 'package)
 (setq package-selected-packages
-      '(modus-themes vertico orderless marginalia embark))
+      '(modus-themes vertico corfu popon corfu-terminal orderless marginalia embark))
+(setq package-archives nil)
 (package-initialize)
 
 (defun global-map-set-kbd (cmd-string fcn)
@@ -44,12 +45,20 @@
 (savehist-mode)
 (vertico-mode)
 
-(require 'marginalia)
-(marginalia-mode)
+(require 'corfu)
+(global-corfu-mode)
+
+(require 'popon)
+(require 'corfu-terminal)
+(unless (display-graphic-p)
+  (corfu-terminal-mode))
 
 (require 'orderless)
 (setq completion-styles '(orderless basic)
       completion-category-overrides '((file (styles basic partial-completion))))
+
+(require 'marginalia)
+(marginalia-mode)
 
 (global-map-set-kbd "C-x C-b" #'ibuffer)
 (global-map-set-kbd "M-s O" #'multi-occur)
