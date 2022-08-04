@@ -46,6 +46,7 @@
 (vertico-mode)
 
 (require 'corfu)
+(define-key corfu-map (kbd "SPC") 'corfu-insert-separator)
 (global-corfu-mode)
 
 (require 'popon)
