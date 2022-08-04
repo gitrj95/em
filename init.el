@@ -3,8 +3,6 @@
 
 
 (require 'package)
-(setq package-selected-packages
-      '(modus-themes vertico corfu popon corfu-terminal orderless marginalia embark))
 (setq package-archives nil)
 (package-initialize)
 
@@ -39,10 +37,12 @@
 (global-map-set-kbd "<f8>" #'modus-themes-toggle)
 
 (require 'savehist)
+(savehist-mode)
+
+(require 'recentf)
+(recentf-mode)
 
 (require 'vertico)
-(recentf-mode)
-(savehist-mode)
 (vertico-mode)
 
 (require 'corfu)
