@@ -26,6 +26,9 @@
 (global-map-set-kbd "C-M-S-<left>" #'windmove-swap-states-left)
 (global-map-set-kbd "C-M-S-<right>" #'windmove-swap-states-right)
 
+(global-map-set-kbd "C-x u" #'undo-only)
+(global-map-set-kbd "C-x r" #'undo-redo)
+
 (setq-default line-spacing .1)
 (setq-default scroll-preserve-screen-position t)
 (setq-default scroll-conservatively 1)
