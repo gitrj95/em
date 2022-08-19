@@ -27,29 +27,46 @@
 (global-map-set-kbd "C-M-S-<right>" #'windmove-swap-states-right)
 
 (global-map-set-kbd "C-x u" #'undo-only)
-(global-map-set-kbd "C-x r" #'undo-redo)
+(global-map-set-kbd "C-x R" #'undo-redo)
 
+(require 'modus-themes)
 (setq-default line-spacing .1)
 (setq-default scroll-preserve-screen-position t)
 (setq-default scroll-conservatively 1)
 (setq-default scroll-margin 0)
 (setq-default next-screen-context-lines 0)
-(require 'modus-themes)
 (modus-themes-load-themes)
 (modus-themes-load-vivendi)
 (global-map-set-kbd "<f8>" #'modus-themes-toggle)
 
 (require 'savehist)
+(setq history-length 10)
 (savehist-mode)
+
+(require 'saveplace)
+(save-place-mode)
 
 (require 'recentf)
 (recentf-mode)
 
 (require 'vertico)
 (vertico-mode)
+(vertico-multiform-mode)
+(setq vertico-multiform-commands
+      '((imenu buffer)))
+(setq vertico-multiform-categories
+      '((file buffer)))
+
+(require 'vertico-directory)
+(define-key vertico-map (kbd "M-DEL") #'vertico-directory-delete-word)
+(add-hook #'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
+
+(require 'vertico-quick)
+(define-key vertico-map (kbd "M-q") #'vertico-quick-insert)
+(define-key vertico-map (kbd "C-q") #'vertico-quick-exit)
 
 (require 'corfu)
-(define-key corfu-map (kbd "SPC") 'corfu-insert-separator)
+(define-key corfu-map (kbd "SPC") #'corfu-insert-separator)
 (global-corfu-mode)
 
 (require 'popon)
