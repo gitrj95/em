@@ -32,6 +32,9 @@
 (save-place-mode)
 (recentf-mode)
 
+(require 'tramp)
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
 (setq-default line-spacing .1)
 (setq-default scroll-preserve-screen-position t)
 (setq-default scroll-conservatively 1)
