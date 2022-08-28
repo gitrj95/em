@@ -40,8 +40,8 @@
 (setq-default scroll-conservatively 1)
 (setq-default scroll-margin 0)
 (setq-default next-screen-context-lines 0)
-(modus-themes-load-themes)
-(modus-themes-load-vivendi)
+
+(load-theme 'modus-vivendi)
 (global-map-set-kbd "<f8>" #'modus-themes-toggle)
 
 (vertico-mode)
