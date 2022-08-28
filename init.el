@@ -2,9 +2,6 @@
 ;;;; rj
 
 
-(setq package-archives nil)
-(package-initialize)
-
 (defun global-map-set-kbd (cmd-string fcn)
   (define-key global-map (kbd cmd-string) fcn))
 
@@ -46,7 +43,7 @@
 (setq-default scroll-margin 0)
 (setq-default next-screen-context-lines 0)
 
-(load-theme 'modus-vivendi)
+(load-theme 'modus-vivendi t)
 (global-map-set-kbd "<f8>" #'modus-themes-toggle)
 
 (vertico-mode)
@@ -60,7 +57,6 @@
 (add-hook #'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
 
 (define-key vertico-map (kbd "M-q") #'vertico-quick-insert)
-(define-key vertico-map (kbd "C-q") #'vertico-quick-exit)
 
 (global-corfu-mode)
 (define-key corfu-map (kbd "SPC") #'corfu-insert-separator)
@@ -80,3 +76,5 @@
 (setq em-etc-directory
       (file-truename (concat user-emacs-directory "etc/")))
 (mapcar #'load (directory-files em-etc-directory t "elc?$"))
+
+(setq gc-cons-threshold 800000)
