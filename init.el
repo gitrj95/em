@@ -35,6 +35,11 @@
 (require 'tramp)
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 
+(require 'grep)
+(when (executable-find "rg")
+  (grep-apply-setting 'grep-find-command '("rg -n -H --no-heading -e ''" . 27)))
+(global-map-set-kbd "C-c g" #'grep-find)
+
 (setq-default line-spacing .1)
 (setq-default scroll-preserve-screen-position t)
 (setq-default scroll-conservatively 1)
