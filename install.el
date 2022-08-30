@@ -11,7 +11,7 @@
 (add-to-list 'package-archives `("gnu" . ,(calculate-package-roots "gnu/")))
 (add-to-list 'package-archives `("nongnu" . ,(calculate-package-roots "nongnu/")))
 (setq package-selected-packages
-      '(vertico corfu-terminal orderless marginalia embark gtags-mode wgrep))
+      '(vertico corfu-terminal orderless marginalia embark gtags-mode wgrep vundo))
 (package-install-selected-packages t)
 
 (setq em-etc-directory (file-truename "etc/"))

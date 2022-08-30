@@ -19,8 +19,7 @@
 (global-map-set-kbd "C-M-S-<left>" #'windmove-swap-states-left)
 (global-map-set-kbd "C-M-S-<right>" #'windmove-swap-states-right)
 
-(global-map-set-kbd "C-x u" #'undo-only)
-(global-map-set-kbd "C-x R" #'undo-redo)
+(global-map-set-kbd "C-x u" #'vundo)
 (global-map-set-kbd "C-x C-b" #'ibuffer)
 (global-map-set-kbd "M-s O" #'multi-occur)
 (global-map-set-kbd "M-g i" #'imenu)
