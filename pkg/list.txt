@@ -1,0 +1,8 @@
+vertico
+corfu-terminal
+orderless
+marginalia
+embark
+vundo
+wgrep
+gtags-mode
