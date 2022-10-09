@@ -6,3 +6,4 @@ embark
 vundo
 wgrep
 eglot
+sly
