@@ -2,6 +2,31 @@
 ;;;; rj
 
 
+(setq custom-file (concat user-emacs-directory "custom.el"))
+(when (file-exists-p custom-file)
+  (load custom-file))
+
+(when (native-comp-available-p)
+  (setq-default native-comp-async-report-warnings-errors nil))
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+(package-install 'exec-path-from-shell)
+
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+(when (daemonp)
+  (exec-path-from-shell-initialize))
+
+(defun load-em-pkgs (file)
+  (let ((strings (with-temp-buffer
+		   (insert-file-contents file)
+		   (split-string (buffer-string) "\n" t))))
+    (mapcar #'intern strings)))
+(mapcar #'package-install
+        (load-em-pkgs (concat user-emacs-directory "pkg.txt")))
+
 (defun global-map-set-kbd (cmd-string fcn)
   (define-key global-map (kbd cmd-string) fcn))
 
@@ -36,11 +61,13 @@
   (grep-apply-setting 'grep-find-command '("rg -n -H --no-heading -e ''" . 27)))
 (global-map-set-kbd "C-c g" #'grep-find)
 
+(set-frame-font "Iosevka 16" nil t)
 (setq-default line-spacing .1)
 (setq-default scroll-preserve-screen-position t)
 (setq-default scroll-conservatively 1)
 (setq-default scroll-margin 0)
 (setq-default next-screen-context-lines 0)
+(electric-pair-mode)
 
 (load-theme 'modus-vivendi t)
 (global-map-set-kbd "<f8>" #'modus-themes-toggle)
@@ -75,5 +102,3 @@
 (setq em-etc-directory
       (file-truename (concat user-emacs-directory "etc/")))
 (mapcar #'load (directory-files em-etc-directory t "elc?$"))
-
-(setq gc-cons-threshold 800000)
