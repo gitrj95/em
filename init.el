@@ -2,12 +2,12 @@
 ;;;; rj
 
 
+(when (native-comp-available-p)
+  (setq-default native-comp-async-report-warnings-errors nil))
+
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
   (load custom-file))
-
-(when (native-comp-available-p)
-  (setq-default native-comp-async-report-warnings-errors nil))
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
@@ -102,3 +102,5 @@
 (setq em-etc-directory
       (file-truename (concat user-emacs-directory "etc/")))
 (mapcar #'load (directory-files em-etc-directory t "elc?$"))
+
+(setq gc-cons-threshold 100000000)
