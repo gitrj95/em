@@ -2,105 +2,185 @@
 ;;;; rj
 
 
+(setq custom-file (make-temp-file "emacs-custom"))
 (when (native-comp-available-p)
   (setq-default native-comp-async-report-warnings-errors nil))
 
-(setq custom-file (concat user-emacs-directory "custom.el"))
-(when (file-exists-p custom-file)
-  (load custom-file))
-
+(setq package-archives
+      '(("melpa" . "https://melpa.org/packages/")
+        ("gnu" . "https://elpa.gnu.org/packages/")
+        ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
-(package-install 'exec-path-from-shell)
 
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-(when (daemonp)
-  (exec-path-from-shell-initialize))
+(setq use-package-always-ensure t)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)  
+  (package-install 'use-package))
+(custom-set-variables
+ '(use-package-enable-imenu-support t))
+(eval-when-compile (require 'use-package))
 
-(defun load-em-pkgs (file)
-  (let ((strings (with-temp-buffer
-		   (insert-file-contents file)
-		   (split-string (buffer-string) "\n" t))))
-    (mapcar #'intern strings)))
-(mapcar #'package-install
-        (load-em-pkgs (concat user-emacs-directory "pkg.txt")))
+(use-package exec-path-from-shell :demand t
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize))
+  (when (daemonp)
+    (exec-path-from-shell-initialize)))
 
-(defun global-map-set-kbd (cmd-string fcn)
-  (define-key global-map (kbd cmd-string) fcn))
+(use-package org
+  :bind
+  (("C-c a" . org-agenda)
+   ("C-c c" . org-capture)
+   ("C-c l" . org-store-link)
+   ("C-c C-l" . org-insert-link)))
 
-(global-map-set-kbd "C-c a" #'org-agenda)
-(global-map-set-kbd "C-c c" #'org-capture)
-(global-map-set-kbd "C-c l" #'org-store-link)
-(global-map-set-kbd "C-c C-l" #'org-insert-link)
+(use-package windmove
+  :bind
+  (("C-M-<up>" . windmove-up)
+   ("C-M-<down>" . windmove-down)
+   ("C-M-<left>" . windmove-left)
+   ("C-M-<right>" . windmove-right)
+   ("C-M-S-<up>" . windmove-swap-states-up)
+   ("C-M-S-<down>" . windmove-swap-states-down)
+   ("C-M-S-<left>" . windmove-swap-states-left)
+   ("C-M-S-<right>" . windmove-swap-states-right)))
 
-(global-map-set-kbd "C-M-<up>" #'windmove-up)
-(global-map-set-kbd "C-M-<down>" #'windmove-down)
-(global-map-set-kbd "C-M-<left>" #'windmove-left)
-(global-map-set-kbd "C-M-<right>" #'windmove-right)
-(global-map-set-kbd "C-M-S-<up>" #'windmove-swap-states-up)
-(global-map-set-kbd "C-M-S-<down>" #'windmove-swap-states-down)
-(global-map-set-kbd "C-M-S-<left>" #'windmove-swap-states-left)
-(global-map-set-kbd "C-M-S-<right>" #'windmove-swap-states-right)
+(use-package vundo
+  :bind (("C-x u" . vundo)))
 
-(global-map-set-kbd "C-x u" #'vundo)
-(global-map-set-kbd "C-x C-b" #'ibuffer)
-(global-map-set-kbd "M-s O" #'multi-occur)
-(global-map-set-kbd "M-g i" #'imenu)
+(use-package tramp
+  :config
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
-(savehist-mode)
-(save-place-mode)
-(recentf-mode)
+(use-package vertico
+  :demand t  
+  :config
+  (vertico-mode)
+  (vertico-multiform-mode)
+  (setq vertico-multiform-commands '((imenu buffer))
+        vertico-multiform-categories '((file buffer)))
+  :bind (:map vertico-map
+              ("M-DEL" . vertico-directory-delete-word)
+              ("M-q" . vertico-quick-insert)))
 
-(require 'tramp)
-(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+(use-package corfu
+  :demand t  
+  :config
+  (global-corfu-mode)
+  :bind (:map corfu-map
+              ("SPC" . corfu-insert-separator)))
 
-(require 'grep)
-(when (executable-find "rg")
-  (grep-apply-setting 'grep-find-command '("rg -n -H --no-heading -e ''" . 27)))
-(global-map-set-kbd "C-c g" #'grep-find)
+(use-package corfu-terminal
+  :demand t
+  :after corfu
+  :init
+  (unless (display-graphic-p)
+    (corfu-terminal-mode)))
 
-(set-frame-font "Iosevka 16" nil t)
-(setq-default line-spacing .1)
-(setq-default scroll-preserve-screen-position t)
-(setq-default scroll-conservatively 1)
-(setq-default scroll-margin 0)
-(setq-default next-screen-context-lines 0)
-(electric-pair-mode)
+(use-package orderless
+  :demand t
+  :config
+  (setq completion-styles '(orderless basic)
+        completion-category-overrides '((file (styles basic partial-completion)))))
 
-(load-theme 'modus-vivendi t)
-(global-map-set-kbd "<f8>" #'modus-themes-toggle)
+(use-package marginalia
+  :demand t
+  :config (marginalia-mode))
 
-(vertico-mode)
-(vertico-multiform-mode)
-(setq vertico-multiform-commands
-      '((imenu buffer)))
-(setq vertico-multiform-categories
-      '((file buffer)))
+(use-package embark
+  :demand t
+  :config
+  (setq prefix-help-command #'embark-prefix-help-command)
+  :bind
+  (("C-c e a" . embark-act)
+   ("C-c e d" . embark-dwim)))
 
-(define-key vertico-map (kbd "M-DEL") #'vertico-directory-delete-word)
-(add-hook #'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
+(use-package consult
+  :ensure t
+  :bind
+  ("M-y" . consult-yank-pop)
+  ("M-g l" . consult-line)
+  ("M-g i" . consult-imenu)
+  ("M-g o" . consult-outline)
+  ("M-g I" . consult-imenu-multi)
+  ("M-g m" . consult-mark)
+  ("M-g k" . consult-global-mark)
+  ("M-s m" . consult-multi-occur)
+  ("M-s g" . consult-grep)
+  ("M-s G" . consult-git-grep)
+  ("M-s r" . consult-ripgrep)
+  ("M-g f" . consult-find)
+  ("M-X" . consult-mode-command)
+  ("C-x b" . consult-buffer)
+  ("C-x 4 b" . consult-buffer-other-window)
+  ("C-c k" . consult-keep-lines)
+  ("C-c f" . consult-focus-lines)
+  (:map minibuffer-local-map
+        ("M-h" . consult-history))
+  (:map isearch-mode-map
+        ("M-g l" . consult-line))
+  :custom
+  (completion-in-region-function #'consult-completion-in-region)
+  (register-preview-function #'consult-register-format)
+  (consult-narrow-key "<")
+  (xref-show-xrefs-function #'consult-xref)
+  (xref-show-definitions-function #'consult-xref)
+  :hook
+  ((embark-collect-mode completion-list-mode) . consult-preview-at-point-mode)
+  (minibuffer-setup . choose-completion-in-region)
+  :config
+  (defun choose-completion-in-region ()
+    "Use default `completion--in-region' unless we are not completing."
+    (when minibuffer-completion-table
+      (setq-local completion-in-region-function #'completion--in-region)))
+  (when (eq (window-system) 'w32)
+    (setq consult-find-args
+          (replace-regexp-in-string "\\*" "\\\\*" consult-find-args)))
+  (advice-add #'register-preview :override #'consult-register-window)
+  (setf (alist-get 'log-edit-mode consult-mode-histories)
+        'log-edit-comment-ring))
 
-(define-key vertico-map (kbd "M-q") #'vertico-quick-insert)
+(use-package embark-consult :after (embark consult))
 
-(global-corfu-mode)
-(define-key corfu-map (kbd "SPC") #'corfu-insert-separator)
+(use-package wgrep)
 
-(unless (display-graphic-p)
-  (corfu-terminal-mode))
+(use-package eglot
+  :config
+  (electric-pair-mode))
 
-(setq completion-styles '(orderless basic)
-      completion-category-overrides '((file (styles basic partial-completion))))
+(use-package vc
+  :bind
+  (:map vc-prefix-map
+        ("R" . vc-rename-file)
+        ("d" . vc-dir-root)
+        ("c" . vc-git-commit)))
 
-(marginalia-mode)
+(use-package magit
+  :bind ("C-x g" . magit))
 
-(setq-default prefix-help-command #'embark-prefix-help-command)
-(global-map-set-kbd "C-c e a" #'embark-act)
-(global-map-set-kbd "C-c e d" #'embark-dwim)
+(use-package modus-themes
+  :demand t
+  :config
+  (load-theme 'modus-vivendi :no-confirm)
+  (set-face-attribute 'default nil :family "Iosevka")
+  (set-face-attribute 'variable-pitch nil :family "Iosevka Aile")
+  (setq-default line-spacing .1)
+  (setq-default scroll-preserve-screen-position t)
+  (setq-default scroll-conservatively 1)
+  (setq-default scroll-margin 0)
+  (setq-default next-screen-context-lines 0)
+  :bind
+  (("<f8>" . modus-themes-toggle)))
 
+(use-package emacs
+  :config
+  (savehist-mode)
+  (save-place-mode)
+  (recentf-mode)
+  (setq gc-cons-threshold 100000000))
+
+;;; load etc
 (setq em-etc-directory
       (file-truename (concat user-emacs-directory "etc/")))
 (mapcar #'load (directory-files em-etc-directory t "elc?$"))
-
-(setq gc-cons-threshold 100000000)

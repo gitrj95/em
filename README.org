@@ -1,8 +1,8 @@
 * em
-em is a minimal emacs configuration
+em is a minimal emacs configuration that strives to still be
+incredibly featureful
 * configure
-two options. add packages to =pkg.txt=. they're installed serially. if
-you want to exercise your elisp-fu, just add whatever =.el= or =.elc=
-files to =etc/=
+if you want to exercise your elisp-fu, just add whatever =.el= or
+=.elc= files to =etc/=
 * installation
-~make clean && make~. the Makefile is trivial
+~make~. the =Makefile= is trivial

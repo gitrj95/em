@@ -1,8 +1,0 @@
-vertico
-corfu-terminal
-orderless
-marginalia
-embark
-vundo
-wgrep
-eglot
