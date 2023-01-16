@@ -182,7 +182,8 @@
   (setq dictionary-server "dict.org")
   (setq gc-cons-threshold 100000000)
   :bind
-  (("M-s d" . dictionary-search)))
+  (("M-s d" . dictionary-search)
+   ("C-x P" . proced)))
 
 ;;; load etc
 (setq em-etc-directory
