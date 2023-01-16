@@ -15,7 +15,7 @@
 
 (setq use-package-always-ensure t)
 (unless (package-installed-p 'use-package)
-  (package-refresh-contents)  
+  (package-refresh-contents)
   (package-install 'use-package))
 (custom-set-variables
  '(use-package-enable-imenu-support t))
@@ -54,7 +54,7 @@
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
 (use-package vertico
-  :demand t  
+  :demand t
   :config
   (vertico-mode)
   (vertico-multiform-mode)
@@ -65,7 +65,7 @@
               ("M-q" . vertico-quick-insert)))
 
 (use-package corfu
-  :demand t  
+  :demand t
   :config
   (global-corfu-mode)
   :bind (:map corfu-map
@@ -165,6 +165,7 @@
   (load-theme 'modus-vivendi :no-confirm)
   (set-face-attribute 'default nil :family "Iosevka")
   (set-face-attribute 'variable-pitch nil :family "Iosevka Aile")
+  (set-face-attribute 'default nil :height 160)
   (setq-default line-spacing .1)
   (setq-default scroll-preserve-screen-position t)
   (setq-default scroll-conservatively 1)
