@@ -149,6 +149,11 @@
   :config
   (electric-pair-mode))
 
+(use-package tree-sitter
+  :demand t
+  :config
+  (global-tree-sitter-mode))
+
 (use-package vc
   :bind
   (:map vc-prefix-map
