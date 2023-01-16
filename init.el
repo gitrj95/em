@@ -179,7 +179,10 @@
   (savehist-mode)
   (save-place-mode)
   (recentf-mode)
-  (setq gc-cons-threshold 100000000))
+  (setq dictionary-server "dict.org")
+  (setq gc-cons-threshold 100000000)
+  :bind
+  (("M-s d" . dictionary-search)))
 
 ;;; load etc
 (setq em-etc-directory
