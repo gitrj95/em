@@ -30,8 +30,7 @@
 
 (use-package org
   :bind
-  (("C-c a" . org-agenda)
-   ("C-c c" . org-capture)
+  (("C-c c" . org-capture)
    ("C-c l" . org-store-link)
    ("C-c C-l" . org-insert-link)))
 
@@ -114,6 +113,8 @@
   ("M-X" . consult-mode-command)
   ("C-x b" . consult-buffer)
   ("C-x 4 b" . consult-buffer-other-window)
+  ("C-c a" . consult-org-agenda)
+  ("C-c h" . consult-org-heading)
   ("C-c k" . consult-keep-lines)
   ("C-c f" . consult-focus-lines)
   (:map minibuffer-local-map
@@ -123,7 +124,6 @@
   :custom
   (completion-in-region-function #'consult-completion-in-region)
   (register-preview-function #'consult-register-format)
-  (consult-narrow-key "<")
   (xref-show-xrefs-function #'consult-xref)
   (xref-show-definitions-function #'consult-xref)
   :hook
