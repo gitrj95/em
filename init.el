@@ -28,12 +28,6 @@
   (when (daemonp)
     (exec-path-from-shell-initialize)))
 
-(use-package org
-  :bind
-  (("C-c c" . org-capture)
-   ("C-c l" . org-store-link)
-   ("C-c C-l" . org-insert-link)))
-
 (use-package windmove
   :bind
   (("C-M-<up>" . windmove-up)
@@ -53,25 +47,22 @@
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
 (use-package vertico
-  :demand t
-  :config
+  :init
   (vertico-mode)
-  (vertico-multiform-mode)
-  (setq vertico-multiform-commands '((imenu buffer))
-        vertico-multiform-categories '((file buffer)))
-  :bind (:map vertico-map
-              ("M-DEL" . vertico-directory-delete-word)
-              ("M-q" . vertico-quick-insert)))
+  :bind
+  (:map vertico-map
+        ("M-DEL" . vertico-directory-delete-word)
+        ("M-q" . vertico-quick-insert)))
 
 (use-package corfu
-  :demand t
-  :config
+  :init
   (global-corfu-mode)
-  :bind (:map corfu-map
-              ("SPC" . corfu-insert-separator)))
+  :bind
+  (:map corfu-map
+        ("SPC" . corfu-insert-separator)
+        ("M-q" . corfu-quick-insert)))
 
 (use-package corfu-terminal
-  :demand t
   :after corfu
   :init
   (unless (display-graphic-p)
@@ -84,19 +75,16 @@
         completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package marginalia
-  :demand t
   :config (marginalia-mode))
 
 (use-package embark
-  :demand t
-  :config
+  :init
   (setq prefix-help-command #'embark-prefix-help-command)
   :bind
   (("C-c e a" . embark-act)
    ("C-c e d" . embark-dwim)))
 
 (use-package consult
-  :ensure t
   :bind
   ("M-y" . consult-yank-pop)
   ("M-g l" . consult-line)
@@ -128,31 +116,55 @@
   (xref-show-definitions-function #'consult-xref)
   :hook
   ((embark-collect-mode completion-list-mode) . consult-preview-at-point-mode)
-  (minibuffer-setup . choose-completion-in-region)
   :config
-  (defun choose-completion-in-region ()
-    "Use default `completion--in-region' unless we are not completing."
-    (when minibuffer-completion-table
-      (setq-local completion-in-region-function #'completion--in-region)))
-  (when (eq (window-system) 'w32)
-    (setq consult-find-args
-          (replace-regexp-in-string "\\*" "\\\\*" consult-find-args)))
-  (advice-add #'register-preview :override #'consult-register-window)
-  (setf (alist-get 'log-edit-mode consult-mode-histories)
-        'log-edit-comment-ring))
+  (advice-add #'register-preview :override #'consult-register-window))
 
-(use-package embark-consult :after (embark consult))
+(use-package embark-consult
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package consult-dir
+  :bind
+  ("C-x C-d" . consult-dir)
+  (:map vertico-map
+        ("C-x C-d" . consult-dir)
+        ("C-x C-j" . consult-dir-jump-file)))
 
 (use-package wgrep)
 
-(use-package eglot
+(use-package eglot)
+
+(use-package consult-eglot
+  :after (consult eglot)
+  :bind
+  (:map eglot-mode-map
+        ("C-c s" . consult-eglot-symbols)))
+
+(use-package buffer-env
+  :hook
+  (hack-local-variables . buffer-env-update))
+
+(use-package dogears :demand t
   :config
-  (electric-pair-mode))
+  (setq dogears-idle 1
+        dogears-hooks nil)
+  (dogears-mode)
+  :bind
+  (("M-g d r" . dogears-remember)
+   ("M-g d g" . dogears-go)
+   ("M-g d b" . dogears-back)
+   ("M-g d f" . dogears-forward)
+   ("M-g d s" . dogears-sidebar)
+   ("M-g d l" . dogears-list)))
 
 (use-package tree-sitter
-  :demand t
-  :config
-  (global-tree-sitter-mode))
+  :init
+  (global-tree-sitter-mode)
+  :hook
+  ((tree-sitter-mode . tree-sitter-hl-mode)))
+
+(use-package tree-sitter-langs
+  :after tree-sitter)
 
 (use-package vc
   :bind
@@ -164,28 +176,56 @@
 (use-package magit
   :bind ("C-x g" . magit))
 
-(use-package modus-themes
+(use-package denote
+  :init
+  (setq denote-directory (expand-file-name "~/.deft")
+        denote-infer-keywords t
+        denote-sort-keywords t)
+  :hook
+  (dired-mode . denote-dired-mode)
+  :bind
+  (("C-c n n" . denote)
+   ("C-c n i" . denote-link)
+   ("C-c n b" . denote-backlinks)
+   ("C-c n l" . denote-link-find-file)
+   ("C-c n r" . denote-dired-rename-file)
+   ("C-c n d" . denote-date)
+   ("C-c n s" . denote-subdirectory)))
+
+(use-package xeft)
+
+(use-package ef-themes
   :demand t
   :config
-  (load-theme 'modus-vivendi :no-confirm)
+  (ef-themes-load-random)
   (set-face-attribute 'default nil :family "Iosevka")
-  (set-face-attribute 'variable-pitch nil :family "Iosevka Aile")
   (set-face-attribute 'default nil :height 160)
-  (setq-default line-spacing .1)
-  (setq-default scroll-preserve-screen-position t)
-  (setq-default scroll-conservatively 1)
-  (setq-default scroll-margin 0)
-  (setq-default next-screen-context-lines 0)
+  (setq-default line-spacing .1
+                scroll-preserve-screen-position t
+                scroll-conservatively 1
+                scroll-margin 0
+                next-screen-context-lines 0
+                cursor-type 'box)
   :bind
-  (("<f8>" . modus-themes-toggle)))
+  (("<f8>" . ef-themes-load-random)))
+
+(use-package savehist
+  :config (savehist-mode))
+
+(use-package saveplace
+  :config (save-place-mode))
+
+(use-package recentf
+  :config (recentf-mode))
+
+(use-package elec-pair
+  :config (electric-pair-mode))
 
 (use-package emacs
   :config
-  (savehist-mode)
-  (save-place-mode)
-  (recentf-mode)
-  (setq dictionary-server "dict.org")
-  (setq gc-cons-threshold 100000000)
+  (setq enable-recursive-minibuffers t
+        dictionary-server "dict.org"
+        gc-cons-threshold 100000000)
   :bind
   (("M-s d" . dictionary-search)
    ("C-x P" . proced)))
