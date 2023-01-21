@@ -70,16 +70,16 @@
 
 (use-package orderless
   :demand t
-  :config
-  (setq completion-styles '(orderless basic)
-        completion-category-overrides '((file (styles basic partial-completion)))))
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package marginalia
   :config (marginalia-mode))
 
 (use-package embark
-  :init
-  (setq prefix-help-command #'embark-prefix-help-command)
+  :custom
+  (prefix-help-command #'embark-prefix-help-command)
   :bind
   (("C-c e a" . embark-act)
    ("C-c e d" . embark-dwim)))
@@ -114,6 +114,7 @@
   (register-preview-function #'consult-register-format)
   (xref-show-xrefs-function #'consult-xref)
   (xref-show-definitions-function #'consult-xref)
+  (consult--regexp-compiler #'consult--orderless-regexp-compiler)
   :hook
   ((embark-collect-mode completion-list-mode) . consult-preview-at-point-mode)
   :config
@@ -145,10 +146,11 @@
   (hack-local-variables . buffer-env-update))
 
 (use-package dogears :demand t
-  :config
-  (setq dogears-idle 1
-        dogears-hooks nil)
-  (dogears-mode)
+  :init
+  (dogears-mode) 
+  :custom
+  (dogears-idle 1)
+  (dogears-hooks nil)
   :bind
   (("M-g d r" . dogears-remember)
    ("M-g d g" . dogears-go)
@@ -177,10 +179,10 @@
   :bind ("C-x g" . magit))
 
 (use-package denote
-  :init
-  (setq denote-directory (expand-file-name "~/.deft")
-        denote-infer-keywords t
-        denote-sort-keywords t)
+  :custom
+  (denote-directory (expand-file-name "~/.deft"))
+  (denote-infer-keywords t)
+  (denote-sort-keywords t)
   :hook
   (dired-mode . denote-dired-mode)
   :bind
@@ -210,22 +212,22 @@
   (("<f8>" . ef-themes-load-random)))
 
 (use-package savehist
-  :config (savehist-mode))
+  :init (savehist-mode))
 
 (use-package saveplace
-  :config (save-place-mode))
+  :init (save-place-mode))
 
 (use-package recentf
-  :config (recentf-mode))
+  :init (recentf-mode))
 
 (use-package elec-pair
-  :config (electric-pair-mode))
+  :init (electric-pair-mode))
 
 (use-package emacs
-  :config
-  (setq enable-recursive-minibuffers t
-        dictionary-server "dict.org"
-        gc-cons-threshold 100000000)
+  :custom
+  (enable-recursive-minibuffers t)
+  (dictionary-server "dict.org")
+  (gc-cons-threshold 100000000)
   :bind
   (("M-s d" . dictionary-search)
    ("C-x P" . proced)))
