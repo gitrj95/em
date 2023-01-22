@@ -135,6 +135,11 @@
 
 (use-package eglot)
 
+(use-package eat
+  :hook
+  (eshell-mode . eat-eshell-mode)
+  (eshell-mode . eat-eshell-visual-command-mode))
+
 (use-package consult-eglot
   :after (consult eglot)
   :bind
@@ -177,6 +182,10 @@
 
 (use-package magit
   :bind ("C-x g" . magit))
+
+(use-package org
+  :bind
+  (("C-c l" . org-store-link)))
 
 (use-package denote
   :custom
@@ -230,6 +239,7 @@
   (gc-cons-threshold 100000000)
   :bind
   (("M-s d" . dictionary-search)
+   ("C-x C-b" . ibuffer)
    ("C-x P" . proced)))
 
 ;;; load etc
