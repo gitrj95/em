@@ -203,6 +203,10 @@
    ("C-c n d" . denote-date)
    ("C-c n s" . denote-subdirectory)))
 
+(use-package pdf-tools
+  :init
+  (pdf-loader-install))
+
 (use-package xeft)
 
 (use-package ef-themes
