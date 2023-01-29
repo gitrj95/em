@@ -199,7 +199,7 @@
    ("C-c n i" . denote-link)
    ("C-c n b" . denote-backlinks)
    ("C-c n l" . denote-link-find-file)
-   ("C-c n r" . denote-dired-rename-file)
+   ("C-c n r" . denote-rename)
    ("C-c n d" . denote-date)
    ("C-c n s" . denote-subdirectory)))
 
@@ -213,7 +213,7 @@
   :demand t
   :config
   (ef-themes-load-random)
-  (set-face-attribute 'default nil :family "Iosevka")
+  (set-face-attribute 'default nil :family "Iosevka Comfy Fixed")
   (set-face-attribute 'default nil :height 160)
   (setq-default line-spacing .1
                 scroll-preserve-screen-position t
@@ -238,6 +238,7 @@
 
 (use-package emacs
   :custom
+  (read-process-output-max (* 4 1024 1024))
   (enable-recursive-minibuffers t)
   (dictionary-server "dict.org")
   (gc-cons-threshold 100000000)
