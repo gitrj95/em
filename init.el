@@ -225,7 +225,10 @@
   (("<f8>" . ef-themes-load-random)))
 
 (use-package savehist
-  :init (savehist-mode))
+  :init
+  (savehist-mode)
+  :custom
+  (savehist-additional-variables '(register-alist)))
 
 (use-package saveplace
   :init (save-place-mode))
