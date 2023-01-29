@@ -241,6 +241,7 @@
   (enable-recursive-minibuffers t)
   (dictionary-server "dict.org")
   (gc-cons-threshold 100000000)
+  (global-display-line-numbers-mode t)
   :bind
   (("M-s d" . dictionary-search)
    ("C-x C-b" . ibuffer)
