@@ -135,11 +135,6 @@
 
 (use-package eglot)
 
-(use-package eat
-  :hook
-  (eshell-mode . eat-eshell-mode)
-  (eshell-mode . eat-eshell-visual-command-mode))
-
 (use-package consult-eglot
   :after (consult eglot)
   :bind
