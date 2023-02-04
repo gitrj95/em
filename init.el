@@ -93,6 +93,7 @@
   ("M-g I" . consult-imenu-multi)
   ("M-g m" . consult-mark)
   ("M-g k" . consult-global-mark)
+  ("M-s i" . consult-info)
   ("M-s m" . consult-multi-occur)
   ("M-s g" . consult-grep)
   ("M-s G" . consult-git-grep)
@@ -101,10 +102,11 @@
   ("M-X" . consult-mode-command)
   ("C-x b" . consult-buffer)
   ("C-x 4 b" . consult-buffer-other-window)
-  ("C-c a" . consult-org-agenda)
-  ("C-c h" . consult-org-heading)
   ("C-c k" . consult-keep-lines)
   ("C-c f" . consult-focus-lines)
+  ("M-`" . consult-register-store)
+  ("C-`" . consult-register-load)
+  ("C-M-`" . consult-register)
   (:map minibuffer-local-map
         ("M-h" . consult-history))
   (:map isearch-mode-map
@@ -182,7 +184,8 @@
   :custom
   (org-agenda-files '("~/.deft"))
   :bind
-  (("C-c l" . org-store-link)))
+  (("C-c l" . org-store-link)
+   ("C-c a" . org-agenda)))
 
 (use-package denote
   :custom
@@ -225,9 +228,7 @@
 
 (use-package savehist
   :init
-  (savehist-mode)
-  :custom
-  (savehist-additional-variables '(register-alist)))
+  (savehist-mode))
 
 (use-package saveplace
   :init (save-place-mode))
@@ -238,6 +239,23 @@
 (use-package elec-pair
   :init (electric-pair-mode))
 
+(use-package proced
+  :bind (("C-x P" . proced))
+  :custom
+  (proced-auto-update-flag t)
+  (proced-goal-attribute nil)
+  (proced-show-remote-processes t)
+  (proced-enable-color-flag t)
+  (proced-format 'custom)
+  :config
+  (add-to-list
+   'proced-format-alist
+   '(custom user pid ppid sess tree pcpu pmem rss start time state (args comm))))
+
+(use-package ibuffer
+  :bind
+  ("C-x C-b" . ibuffer))
+
 (use-package emacs
   :custom
   (read-process-output-max (* 4 1024 1024))
@@ -246,9 +264,7 @@
   (gc-cons-threshold 100000000)
   (global-display-line-numbers-mode t)
   :bind
-  (("M-s d" . dictionary-search)
-   ("C-x C-b" . ibuffer)
-   ("C-x P" . proced)))
+  (("M-s d" . dictionary-search)))
 
 ;;; load etc
 (setq em-etc-directory
