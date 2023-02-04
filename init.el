@@ -81,8 +81,8 @@
   :custom
   (prefix-help-command #'embark-prefix-help-command)
   :bind
-  (("C-c e a" . embark-act)
-   ("C-c e d" . embark-dwim)))
+  (("C-;" . embark-act)
+   ("C-'" . embark-dwim)))
 
 (use-package consult
   :bind
@@ -184,6 +184,8 @@
   :bind ("C-x g" . magit))
 
 (use-package org
+  :custom
+  (org-agenda-files '("~/.deft"))
   :bind
   (("C-c l" . org-store-link)))
 
@@ -207,7 +209,9 @@
   :init
   (pdf-loader-install))
 
-(use-package xeft)
+(use-package xeft
+  :config
+  (fmakunbound 'xeft-create-note))
 
 (use-package ef-themes
   :demand t
