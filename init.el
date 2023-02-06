@@ -203,13 +203,17 @@
    ("C-c n d" . denote-date)
    ("C-c n s" . denote-subdirectory)))
 
+(use-package xeft
+  :config
+  (fmakunbound 'xeft-create-note))
+
 (use-package pdf-tools
   :init
   (pdf-loader-install))
 
-(use-package xeft
-  :config
-  (fmakunbound 'xeft-create-note))
+(use-package elfeed
+  :bind
+  ("C-x w" . elfeed))
 
 (use-package ef-themes
   :demand t
