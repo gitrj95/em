@@ -137,6 +137,11 @@
 
 (use-package eglot)
 
+(if (>= emacs-major-version 29)
+    (use-package treesit-auto
+      :config
+      (global-treesit-auto-mode)))
+
 (use-package consult-eglot
   :after (consult eglot)
   :bind
@@ -160,15 +165,6 @@
    ("M-g d f" . dogears-forward)
    ("M-g d s" . dogears-sidebar)
    ("M-g d l" . dogears-list)))
-
-(use-package tree-sitter
-  :init
-  (global-tree-sitter-mode)
-  :hook
-  ((tree-sitter-mode . tree-sitter-hl-mode)))
-
-(use-package tree-sitter-langs
-  :after tree-sitter)
 
 (use-package vc
   :bind
