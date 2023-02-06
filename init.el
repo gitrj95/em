@@ -148,9 +148,7 @@
   (:map eglot-mode-map
         ("C-c s" . consult-eglot-symbols)))
 
-(use-package buffer-env
-  :hook
-  (hack-local-variables . buffer-env-update))
+(use-package buffer-env)
 
 (use-package dogears :demand t
   :init
