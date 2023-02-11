@@ -107,6 +107,7 @@
   ("M-`" . consult-register-store)
   ("C-`" . consult-register-load)
   ("C-M-`" . consult-register)
+  ("<f5>" . consult-flymake)
   (:map minibuffer-local-map
         ("M-h" . consult-history))
   (:map isearch-mode-map
@@ -136,11 +137,6 @@
 (use-package wgrep)
 
 (use-package eglot)
-
-(if (>= emacs-major-version 29)
-    (use-package treesit-auto
-      :config
-      (global-treesit-auto-mode)))
 
 (use-package consult-eglot
   :after (consult eglot)
