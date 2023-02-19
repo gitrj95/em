@@ -107,7 +107,7 @@
   ("M-`" . consult-register-store)
   ("C-`" . consult-register-load)
   ("C-M-`" . consult-register)
-  ("<f5>" . consult-flymake)
+  ("<f6>" . consult-flymake)
   (:map minibuffer-local-map
         ("M-h" . consult-history))
   (:map isearch-mode-map
@@ -136,7 +136,9 @@
 
 (use-package wgrep)
 
-(use-package eglot)
+(use-package eglot
+  :bind
+  ("<f5>" . eglot))
 
 (use-package consult-eglot
   :after (consult eglot)
@@ -150,7 +152,7 @@
   :init
   (dogears-mode) 
   :custom
-  (dogears-idle 1)
+  (dogears-idle nil)
   (dogears-hooks nil)
   :bind
   (("M-g d r" . dogears-remember)
@@ -194,8 +196,17 @@
    ("C-c n s" . denote-subdirectory)))
 
 (use-package xeft
+  :custom
+  (xeft-file-filter #'em-xeft-filter)
+  :bind
+  ("M-s n" . xeft)
   :config
-  (fmakunbound 'xeft-create-note))
+  (fmakunbound 'xeft-create-note)
+  (defun em-xeft-filter (file)
+    "Applies the xeft default filterer and ignores emacs backup suffixes."
+    (and (xeft-default-file-filter file)
+         (not (string-suffix-p "~" file))
+         (not (string-suffix-p "#" file)))))
 
 (use-package pdf-tools
   :init
