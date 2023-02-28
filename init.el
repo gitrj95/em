@@ -244,6 +244,20 @@
 (use-package elec-pair
   :init (electric-pair-mode))
 
+(use-package tempel
+  :bind (("M-+" . tempel-complete)
+         ("M-*" . tempel-insert))
+  :init
+  (defun tempel-setup-capf ()
+    (setq-local completion-at-point-functions
+                (cons #'tempel-expand
+                      completion-at-point-functions)))
+  (add-hook 'prog-mode-hook 'tempel-setup-capf)
+  (add-hook 'text-mode-hook 'tempel-setup-capf))
+
+(use-package tempel-collection
+  :after tempel)
+
 (use-package proced
   :bind (("C-x P" . proced))
   :custom
