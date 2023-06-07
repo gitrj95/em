@@ -39,6 +39,17 @@
    ("C-M-S-<left>" . windmove-swap-states-left)
    ("C-M-S-<right>" . windmove-swap-states-right)))
 
+(use-package breadcrumbs
+  :custom
+  (breadcrumbs-drop-around-fn-list '(xref-find-definitions xref-find-references))
+  :init
+  (breadcrumbs-mode)
+  :bind
+  ("C-M-=" . breadcrumbs-drop-breadcrumb)
+  ("C-M-'" . breadcrumbs-list)
+  ("C-M-[" . breadcrumbs-find-and-jump-previous)
+  ("C-M-]". breadcrumbs-find-and-jump-next))
+
 (use-package vundo
   :bind (("C-x u" . vundo)))
 
@@ -107,7 +118,7 @@
   ("M-`" . consult-register-store)
   ("C-`" . consult-register-load)
   ("C-M-`" . consult-register)
-  ("<f6>" . consult-flymake)
+  ("<f7>" . consult-flymake)
   (:map minibuffer-local-map
         ("M-h" . consult-history))
   (:map isearch-mode-map
@@ -134,11 +145,22 @@
         ("C-x C-d" . consult-dir)
         ("C-x C-j" . consult-dir-jump-file)))
 
+(use-package jinx
+  :hook (emacs-startup . global-jinx-mode)
+  :bind ("M-$" . jinx-correct))
+
 (use-package wgrep)
+
+(use-package eat
+  :bind
+  ("<f5>" . eshell)
+  :init
+  (add-hook 'eshell-load-hook #'eat-eshell-mode)
+  (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode))
 
 (use-package eglot
   :bind
-  ("<f5>" . eglot))
+  ("<f6>" . eglot))
 
 (use-package consult-eglot
   :after (consult eglot)
@@ -147,20 +169,6 @@
         ("C-c s" . consult-eglot-symbols)))
 
 (use-package buffer-env)
-
-(use-package dogears :demand t
-  :init
-  (dogears-mode) 
-  :custom
-  (dogears-idle nil)
-  (dogears-hooks nil)
-  :bind
-  (("M-g d r" . dogears-remember)
-   ("M-g d g" . dogears-go)
-   ("M-g d b" . dogears-back)
-   ("M-g d f" . dogears-forward)
-   ("M-g d s" . dogears-sidebar)
-   ("M-g d l" . dogears-list)))
 
 (use-package vc
   :bind
@@ -233,7 +241,9 @@
 
 (use-package savehist
   :init
-  (savehist-mode))
+  (savehist-mode)
+  (setq savehist-additional-variables
+        '(breadcrumbs-ring)))
 
 (use-package saveplace
   :init (save-place-mode))
@@ -281,9 +291,7 @@
   (enable-recursive-minibuffers t)
   (dictionary-server "dict.org")
   (gc-cons-threshold 100000000)
-  (global-display-line-numbers-mode t)
-  :bind
-  (("M-s d" . dictionary-search)))
+  (global-display-line-numbers-mode t))
 
 ;;; load etc
 (setq em-etc-directory
