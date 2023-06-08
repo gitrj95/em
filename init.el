@@ -220,6 +220,10 @@
   :init
   (pdf-loader-install))
 
+(use-package devdocs
+  :bind
+  ("C-h D" . devdocs-lookup))
+
 (use-package elfeed
   :bind
   ("C-x w" . elfeed))
