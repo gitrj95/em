@@ -297,7 +297,8 @@
   (read-process-output-max (* 4 1024 1024))
   (enable-recursive-minibuffers t)
   (gc-cons-threshold 100000000)
-  (global-display-line-numbers-mode t))
+  (global-display-line-numbers-mode t)
+  (display-time-mode 1))
 
 ;;; load etc
 (setq em-etc-directory
