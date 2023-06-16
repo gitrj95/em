@@ -22,6 +22,8 @@
 (eval-when-compile (require 'use-package))
 
 (use-package exec-path-from-shell :demand t
+  :custom
+  (exec-path-from-shell-variables '("PATH" "MANPATH" "PYTHONPATH"))
   :config
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize))
@@ -99,13 +101,14 @@
   :bind
   ("M-y" . consult-yank-pop)
   ("M-g l" . consult-line)
+  ("M-g L" . consult-line-multi)
   ("M-g i" . consult-imenu)
   ("M-g o" . consult-outline)
   ("M-g I" . consult-imenu-multi)
   ("M-g m" . consult-mark)
-  ("M-g k" . consult-global-mark)
+  ("M-g M" . consult-global-mark)
   ("M-s i" . consult-info)
-  ("M-s m" . consult-multi-occur)
+  ("M-s m" . consult-man)
   ("M-s g" . consult-grep)
   ("M-s G" . consult-git-grep)
   ("M-s r" . consult-ripgrep)
@@ -293,7 +296,6 @@
   :custom
   (read-process-output-max (* 4 1024 1024))
   (enable-recursive-minibuffers t)
-  (dictionary-server "dict.org")
   (gc-cons-threshold 100000000)
   (global-display-line-numbers-mode t))
 
