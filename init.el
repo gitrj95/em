@@ -53,7 +53,7 @@
   ("C-M-]". trail-find-and-jump-next))
 
 (use-package vundo
-  :bind (("C-x u" . vundo)))
+  :bind ("C-x u" . vundo))
 
 (use-package tramp
   :config
@@ -270,8 +270,7 @@
   :init (electric-pair-mode))
 
 (use-package tempel
-  :bind (("M-+" . tempel-complete)
-         ("M-*" . tempel-insert))
+  :bind ("M-+" . tempel-complete)
   :init
   (defun tempel-setup-capf ()
     (setq-local completion-at-point-functions
@@ -284,7 +283,7 @@
   :after tempel)
 
 (use-package proced
-  :bind (("C-x P" . proced))
+  :bind ("C-x P" . proced)
   :custom
   (proced-auto-update-flag t)
   (proced-goal-attribute nil)
