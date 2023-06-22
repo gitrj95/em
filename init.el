@@ -41,16 +41,16 @@
    ("C-M-S-<left>" . windmove-swap-states-left)
    ("C-M-S-<right>" . windmove-swap-states-right)))
 
-(use-package breadcrumbs
+(use-package trail
   :custom
-  (breadcrumbs-drop-around-fn-list '(xref-find-definitions xref-find-references))
+  (trail-mark-around-functions '(xref-find-definitions xref-find-references))
   :init
-  (breadcrumbs-mode)
+  (trail-mode)
   :bind
-  ("C-M-=" . breadcrumbs-drop-breadcrumb)
-  ("C-M-'" . breadcrumbs-list)
-  ("C-M-[" . breadcrumbs-find-and-jump-previous)
-  ("C-M-]". breadcrumbs-find-and-jump-next))
+  ("C-M-=" . trail-mark)
+  ("C-M-'" . trail-list)
+  ("C-M-[" . trail-find-and-jump-previous)
+  ("C-M-]". trail-find-and-jump-next))
 
 (use-package vundo
   :bind (("C-x u" . vundo)))
@@ -186,9 +186,17 @@
 (use-package org
   :custom
   (org-agenda-files '("~/.deft"))
+  (org-hide-emphasis-markers t)
+  (org-pretty-entities t)
   :bind
   (("C-c l" . org-store-link)
    ("C-c a" . org-agenda)))
+
+(use-package org-modern
+  :if (display-graphic-p)
+  :after org
+  :config
+  (global-org-modern-mode))
 
 (use-package denote
   :custom
@@ -250,7 +258,7 @@
   :init
   (savehist-mode)
   (setq savehist-additional-variables
-        '(breadcrumbs-ring)))
+        '(trail-ring)))
 
 (use-package saveplace
   :init (save-place-mode))
