@@ -23,7 +23,7 @@
 
 (use-package exec-path-from-shell :demand t
   :custom
-  (exec-path-from-shell-variables '("PATH" "MANPATH" "PYTHONPATH"))
+  (exec-path-from-shell-variables '("PATH" "PYTHONPATH"))
   :config
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize))
@@ -44,13 +44,14 @@
 (use-package trail
   :custom
   (trail-mark-around-functions '(xref-find-definitions xref-find-references))
-  :init
+  (trail-ring-max 100)
+  :config
   (trail-mode)
   :bind
   ("C-M-=" . trail-mark)
   ("C-M-'" . trail-list)
   ("C-M-[" . trail-find-and-jump-previous)
-  ("C-M-]". trail-find-and-jump-next))
+  ("C-M-]" . trail-find-and-jump-next))
 
 (use-package vundo
   :bind ("C-x u" . vundo))
@@ -107,12 +108,12 @@
   ("M-g I" . consult-imenu-multi)
   ("M-g m" . consult-mark)
   ("M-g M" . consult-global-mark)
+  ("M-g f" . consult-find)
   ("M-s i" . consult-info)
   ("M-s m" . consult-man)
   ("M-s g" . consult-grep)
   ("M-s G" . consult-git-grep)
   ("M-s r" . consult-ripgrep)
-  ("M-g f" . consult-find)
   ("M-X" . consult-mode-command)
   ("C-x b" . consult-buffer)
   ("C-x 4 b" . consult-buffer-other-window)
@@ -121,7 +122,6 @@
   ("M-`" . consult-register-store)
   ("C-`" . consult-register-load)
   ("C-M-`" . consult-register)
-  ("<f7>" . consult-flymake)
   (:map minibuffer-local-map
         ("M-h" . consult-history))
   (:map isearch-mode-map
@@ -167,9 +167,8 @@
 
 (use-package consult-eglot
   :after (consult eglot)
-  :bind
-  (:map eglot-mode-map
-        ("C-c s" . consult-eglot-symbols)))
+  :config
+  (define-key eglot-mode-map (kbd "M-g s") #'consult-eglot-symbols))
 
 (use-package buffer-env)
 
@@ -255,7 +254,7 @@
   (("<f8>" . ef-themes-load-random)))
 
 (use-package savehist
-  :init
+  :config
   (savehist-mode)
   (setq savehist-additional-variables
         '(trail-ring)))
@@ -305,7 +304,12 @@
   (enable-recursive-minibuffers t)
   (gc-cons-threshold 100000000)
   (global-display-line-numbers-mode t)
-  (display-time-mode 1))
+  (display-time-mode 1)
+  :init
+  (when (string= system-type "darwin")
+    (when-let ((ls-exe (executable-find "gls")))
+      (setq dired-use-ls-dired t
+            insert-directory-program ls-exe))))
 
 ;;; load etc
 (setq em-etc-directory
