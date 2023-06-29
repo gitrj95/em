@@ -3,6 +3,8 @@
 
 
 (setq custom-file (make-temp-file "emacs-custom"))
+(setq em-notes-directory "~/notes")
+
 (when (native-comp-available-p)
   (setq-default native-comp-async-report-warnings-errors nil))
 
@@ -92,6 +94,7 @@
   :config (marginalia-mode))
 
 (use-package embark
+  :demand t
   :custom
   (prefix-help-command #'embark-prefix-help-command)
   :bind
@@ -127,11 +130,9 @@
   (:map isearch-mode-map
         ("M-g l" . consult-line))
   :custom
-  (completion-in-region-function #'consult-completion-in-region)
   (register-preview-function #'consult-register-format)
   (xref-show-xrefs-function #'consult-xref)
   (xref-show-definitions-function #'consult-xref)
-  (consult--regexp-compiler #'consult--orderless-regexp-compiler)
   :hook
   ((embark-collect-mode completion-list-mode) . consult-preview-at-point-mode)
   :config
@@ -183,8 +184,12 @@
   :bind ("C-x g" . magit))
 
 (use-package org
+  :init
+  (let ((expanded-f (expand-file-name em-notes-directory)))
+    (unless (file-directory-p expanded-f)
+      (make-directory expanded-f)))
   :custom
-  (org-agenda-files '("~/.deft"))
+  (org-agenda-files `(,em-notes-directory))
   (org-hide-emphasis-markers t)
   (org-pretty-entities t)
   :bind
@@ -197,9 +202,24 @@
   :config
   (global-org-modern-mode))
 
+(use-package all-the-icons
+  :if (display-graphic-p))
+
+(use-package all-the-icons-dired
+  :after all-the-icons
+  :hook
+  (dired-mode . all-the-icons-dired-mode))
+
+(use-package all-the-icons-completion
+  :after all-the-icons
+  :init
+  (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)
+  :config
+  (all-the-icons-completion-mode))
+
 (use-package denote
   :custom
-  (denote-directory (expand-file-name "~/.deft"))
+  (denote-directory (expand-file-name em-notes-directory))
   (denote-infer-keywords t)
   (denote-sort-keywords t)
   :hook
@@ -213,18 +233,33 @@
    ("C-c n d" . denote-date)
    ("C-c n s" . denote-subdirectory)))
 
-(use-package xeft
-  :custom
-  (xeft-file-filter #'em-xeft-filter)
-  :bind
-  ("M-s n" . xeft)
+(use-package consult-notes
+  :init
+  (defun consult-notes-open-dired (cand)
+    "Open notes directory dired with point on file CAND."
+    (interactive "fNote: ")
+    (dired-jump nil cand))
+  (defun consult-notes-marked (cand)
+    "Open a notes file CAND in Marked 2.
+Marked 2 is a mac app that renders markdown."
+    (interactive "fNote: ")
+    (call-process-shell-command (format "open -a \"Marked 2\" \"%s\"" (expand-file-name cand))))
+  (defun consult-notes-grep (cand)
+    "Run grep in directory of notes file CAND."
+    (interactive "fNote: ")
+    (consult-grep (file-name-directory cand)))
   :config
-  (fmakunbound 'xeft-create-note)
-  (defun em-xeft-filter (file)
-    "Applies the xeft default filterer and ignores emacs backup suffixes."
-    (and (xeft-default-file-filter file)
-         (not (string-suffix-p "~" file))
-         (not (string-suffix-p "#" file)))))
+  (defvar-keymap consult-notes-map
+    :doc "Keymap for Embark notes actions."
+    :parent embark-file-map
+    "d" #'consult-notes-open-dired
+    "g" #'consult-notes-grep
+    "m" #'consult-notes-marked)
+  (add-to-list 'embark-keymap-alist `(,consult-notes-category . consult-notes-map))
+  (consult-notes-denote-mode)
+  :bind
+  (("M-g n" . consult-notes)
+   ("M-s n" . consult-notes-search-in-all-notes)))
 
 (use-package pdf-tools
   :init
@@ -239,8 +274,7 @@
   ("C-x w" . elfeed))
 
 (use-package ef-themes
-  :demand t
-  :config
+  :init
   (ef-themes-load-random)
   (set-face-attribute 'default nil :family "Iosevka Comfy Fixed")
   (set-face-attribute 'default nil :height 160)
@@ -304,7 +338,6 @@
   (enable-recursive-minibuffers t)
   (gc-cons-threshold 100000000)
   (global-display-line-numbers-mode t)
-  (display-time-mode 1)
   :init
   (when (string= system-type "darwin")
     (when-let ((ls-exe (executable-find "gls")))
