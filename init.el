@@ -25,7 +25,7 @@
 
 (use-package exec-path-from-shell
   :custom
-  (exec-path-from-shell-variables '("PATH" "PYTHONPATH"))
+  (exec-path-from-shell-variables '("PATH" "MANPATH" "PYTHONPATH"))
   :init
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize))
@@ -44,10 +44,11 @@
    ("C-M-S-<right>" . windmove-swap-states-right)))
 
 (use-package trail
+  :after savehist
   :custom
   (trail-mark-around-functions '(xref-find-definitions xref-find-references))
   (trail-ring-max 100)
-  :config
+  :init
   (trail-mode)
   :bind
   ("C-M-=" . trail-mark)
@@ -149,6 +150,12 @@
         ("C-x C-d" . consult-dir)
         ("C-x C-j" . consult-dir-jump-file)))
 
+(use-package keycast
+  :custom
+  (keycast-mode-line-remove-tail-elements nil)
+  :init
+  (keycast-mode-line-mode))
+
 (use-package jinx
   :init
   (global-jinx-mode)
@@ -236,32 +243,12 @@
    ("C-c n s" . denote-subdirectory)))
 
 (use-package consult-notes
-  :init
-  (defun consult-notes-open-dired (cand)
-    "Open notes directory dired with point on file CAND."
-    (interactive "fNote: ")
-    (dired-jump nil cand))
-  (defun consult-notes-marked (cand)
-    "Open a notes file CAND in Marked 2.
-Marked 2 is a mac app that renders markdown."
-    (interactive "fNote: ")
-    (call-process-shell-command (format "open -a \"Marked 2\" \"%s\"" (expand-file-name cand))))
-  (defun consult-notes-grep (cand)
-    "Run grep in directory of notes file CAND."
-    (interactive "fNote: ")
-    (consult-grep (file-name-directory cand)))
+  :custom
+  (consult-notes-denote-dir nil)
   :config
-  (defvar-keymap consult-notes-map
-    :doc "Keymap for Embark notes actions."
-    :parent embark-file-map
-    "d" #'consult-notes-open-dired
-    "g" #'consult-notes-grep
-    "m" #'consult-notes-marked)
-  (add-to-list 'embark-keymap-alist `(,consult-notes-category . consult-notes-map))
   (consult-notes-denote-mode)
   :bind
-  (("M-g n" . consult-notes)
-   ("M-s n" . consult-notes-search-in-all-notes)))
+  ("M-g n" . consult-notes))
 
 (use-package pdf-tools
   :init
@@ -341,6 +328,7 @@ Marked 2 is a mac app that renders markdown."
   (gc-cons-threshold 100000000)
   (global-display-line-numbers-mode t)
   :init
+  (display-time-mode)
   (when (string= system-type "darwin")
     (when-let ((ls-exe (executable-find "gls")))
       (setq dired-use-ls-dired t
