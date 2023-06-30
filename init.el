@@ -23,10 +23,10 @@
  '(use-package-enable-imenu-support t))
 (eval-when-compile (require 'use-package))
 
-(use-package exec-path-from-shell :demand t
+(use-package exec-path-from-shell
   :custom
   (exec-path-from-shell-variables '("PATH" "PYTHONPATH"))
-  :config
+  :init
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize))
   (when (daemonp)
@@ -91,7 +91,7 @@
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package marginalia
-  :config (marginalia-mode))
+  :init (marginalia-mode))
 
 (use-package embark
   :demand t
@@ -135,7 +135,7 @@
   (xref-show-definitions-function #'consult-xref)
   :hook
   ((embark-collect-mode completion-list-mode) . consult-preview-at-point-mode)
-  :config
+  :init
   (advice-add #'register-preview :override #'consult-register-window))
 
 (use-package embark-consult
@@ -150,8 +150,10 @@
         ("C-x C-j" . consult-dir-jump-file)))
 
 (use-package jinx
-  :hook (emacs-startup . global-jinx-mode)
-  :bind ("M-$" . jinx-correct))
+  :init
+  (global-jinx-mode)
+  :bind
+  ("M-$" . jinx-correct))
 
 (use-package wgrep)
 
@@ -212,9 +214,9 @@
 
 (use-package all-the-icons-completion
   :after all-the-icons
-  :init
-  (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)
   :config
+  (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)
+  :init
   (all-the-icons-completion-mode))
 
 (use-package denote
@@ -288,7 +290,7 @@ Marked 2 is a mac app that renders markdown."
   (("<f8>" . ef-themes-load-random)))
 
 (use-package savehist
-  :config
+  :init
   (savehist-mode)
   (setq savehist-additional-variables
         '(trail-ring)))
