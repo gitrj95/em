@@ -105,6 +105,7 @@
 (use-package consult
   :bind
   ("M-y" . consult-yank-pop)
+  ("M-g g" . consult-goto-line)
   ("M-g l" . consult-line)
   ("M-g L" . consult-line-multi)
   ("M-g i" . consult-imenu)
@@ -149,6 +150,10 @@
   (:map vertico-map
         ("C-x C-d" . consult-dir)
         ("C-x C-j" . consult-dir-jump-file)))
+
+(use-package avy
+  :bind
+  ("M-g c" . avy-goto-char-timer))
 
 (use-package keycast
   :custom
@@ -326,7 +331,6 @@
   (read-process-output-max (* 4 1024 1024))
   (enable-recursive-minibuffers t)
   (gc-cons-threshold 100000000)
-  (global-display-line-numbers-mode t)
   :init
   (display-time-mode)
   (when (string= system-type "darwin")
