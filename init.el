@@ -153,7 +153,9 @@
 
 (use-package avy
   :bind
-  ("M-g c" . avy-goto-char-timer))
+  ("M-g c" . avy-goto-char-timer)
+  (:map isearch-mode-map
+        ("M-g c" . avy-isearch)))
 
 (use-package keycast
   :custom
