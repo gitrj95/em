@@ -80,10 +80,10 @@
         ("M-q" . corfu-quick-insert)))
 
 (use-package corfu-terminal
-  :after corfu
+  :if
+  (not (display-graphic-p))
   :init
-  (unless (display-graphic-p)
-    (corfu-terminal-mode)))
+  (corfu-terminal-mode))
 
 (use-package orderless
   :demand t
@@ -95,7 +95,6 @@
   :init (marginalia-mode))
 
 (use-package embark
-  :demand t
   :custom
   (prefix-help-command #'embark-prefix-help-command)
   :bind
@@ -174,9 +173,9 @@
 (use-package eat
   :bind
   ("<f5>" . eshell)
-  :init
-  (add-hook 'eshell-load-hook #'eat-eshell-mode)
-  (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode))
+  :hook
+  (eshell-mode . eat-eshell-mode)
+  (eshell-mode . eat-eshell-visual-command-mode))
 
 (use-package eglot
   :bind
@@ -215,11 +214,17 @@
 (use-package org-modern
   :if (display-graphic-p)
   :after org
-  :config
+  :init
   (global-org-modern-mode))
 
 (use-package all-the-icons
   :if (display-graphic-p))
+
+(use-package dired-preview
+  :custom
+  (dired-preview-delay 0)
+  :hook
+  (dired-mode . dired-preview-mode))
 
 (use-package all-the-icons-dired
   :after all-the-icons
@@ -269,6 +274,10 @@
 (use-package elfeed
   :bind
   ("C-x w" . elfeed))
+
+(use-package notmuch
+  :custom
+  (notmuch-search-oldest-first nil))
 
 (use-package ef-themes
   :init
