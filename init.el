@@ -1,12 +1,16 @@
 ;;;; em init
 ;;;; rj
 
+(when (native-comp-available-p)
+  (setq-default native-comp-async-report-warnings-errors nil))
 
 (setq custom-file (make-temp-file "emacs-custom"))
 (setq em-notes-directory "~/notes")
+(setq use-package-verbose t)
 
-(when (native-comp-available-p)
-  (setq-default native-comp-async-report-warnings-errors nil))
+(let ((expanded-f (expand-file-name em-notes-directory)))
+  (unless (file-directory-p expanded-f)
+    (make-directory expanded-f)))
 
 (setq package-archives
       '(("melpa" . "https://melpa.org/packages/")
@@ -199,10 +203,6 @@
   :bind ("C-x g" . magit))
 
 (use-package org
-  :init
-  (let ((expanded-f (expand-file-name em-notes-directory)))
-    (unless (file-directory-p expanded-f)
-      (make-directory expanded-f)))
   :custom
   (org-agenda-files `(,em-notes-directory))
   (org-hide-emphasis-markers t)
