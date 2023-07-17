@@ -281,7 +281,6 @@
 
 (use-package ef-themes
   :init
-  (ef-themes-load-random)
   (set-face-attribute 'default nil :family "Iosevka Comfy Fixed")
   (set-face-attribute 'default nil :height 160)
   (setq-default line-spacing .1
@@ -311,9 +310,6 @@
 
 (use-package recentf
   :init (recentf-mode))
-
-(use-package elec-pair
-  :init (electric-pair-mode))
 
 (use-package tempel
   :bind ("M-+" . tempel-complete)
@@ -361,3 +357,7 @@
 (setq em-etc-directory
       (file-truename (concat user-emacs-directory "etc/")))
 (mapcar #'load (directory-files em-etc-directory t "elc?$"))
+
+;;; load light/dark theme via user
+(let ((current-prefix-arg t))
+  (call-interactively #'ef-themes-load-random))
