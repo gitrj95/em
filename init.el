@@ -299,6 +299,10 @@
   (("<f7>" . em-load-light-theme)
    ("<f8>" . em-load-dark-theme)))
 
+(use-package desktop
+  :custom
+  (desktop-save-mode t))
+
 (use-package savehist
   :init
   (savehist-mode)
