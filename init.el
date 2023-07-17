@@ -290,8 +290,15 @@
                 scroll-margin 0
                 next-screen-context-lines 0
                 cursor-type 'box)
+  (defun em-load-light-theme ()
+    (interactive)
+    (ef-themes-load-random 'light))
+  (defun em-load-dark-theme ()
+    (interactive)
+    (ef-themes-load-random 'dark))
   :bind
-  (("<f8>" . ef-themes-load-random)))
+  (("<f7>" . em-load-light-theme)
+   ("<f8>" . em-load-dark-theme)))
 
 (use-package savehist
   :init
