@@ -249,7 +249,7 @@
   :bind
   (("C-c n n" . denote)
    ("C-c n i" . denote-link)
-   ("C-c n b" . denote-backlinks)
+   ("C-c n b" . denote-link-backlinks)
    ("C-c n l" . denote-link-find-file)
    ("C-c n r" . denote-rename)
    ("C-c n d" . denote-date)
