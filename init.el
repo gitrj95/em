@@ -41,11 +41,7 @@
   (("C-M-<up>" . windmove-up)
    ("C-M-<down>" . windmove-down)
    ("C-M-<left>" . windmove-left)
-   ("C-M-<right>" . windmove-right)
-   ("C-M-S-<up>" . windmove-swap-states-up)
-   ("C-M-S-<down>" . windmove-swap-states-down)
-   ("C-M-S-<left>" . windmove-swap-states-left)
-   ("C-M-S-<right>" . windmove-swap-states-right)))
+   ("C-M-<right>" . windmove-right)))
 
 (use-package trail
   :after savehist
@@ -176,15 +172,11 @@
 (use-package wgrep)
 
 (use-package eat
-  :bind
-  ("<f5>" . eshell)
   :hook
   (eshell-mode . eat-eshell-mode)
   (eshell-mode . eat-eshell-visual-command-mode))
 
-(use-package eglot
-  :bind
-  ("<f6>" . eglot))
+(use-package eglot)
 
 (use-package consult-eglot
   :after (consult eglot)
@@ -356,7 +348,10 @@
   (when (string= system-type "darwin")
     (when-let ((ls-exe (executable-find "gls")))
       (setq dired-use-ls-dired t
-            insert-directory-program ls-exe))))
+            insert-directory-program ls-exe)))
+  :bind
+  ("C-M-S-<left>" . previous-buffer)
+  ("C-M-S-<right>" . next-buffer))
 
 ;;; load etc
 (setq em-etc-directory
