@@ -6,7 +6,6 @@
 
 (setq custom-file (make-temp-file "emacs-custom"))
 (setq em-notes-directory "~/notes")
-(setq use-package-verbose t)
 
 (let ((expanded-f (expand-file-name em-notes-directory)))
   (unless (file-directory-p expanded-f)
@@ -292,10 +291,6 @@
   (("<f7>" . em-load-light-theme)
    ("<f8>" . em-load-dark-theme)))
 
-(use-package desktop
-  :custom
-  (desktop-save-mode t))
-
 (use-package savehist
   :init
   (savehist-mode)
@@ -341,8 +336,8 @@
 (use-package emacs
   :custom
   (read-process-output-max (* 4 1024 1024))
-  (enable-recursive-minibuffers t)
   (gc-cons-threshold 100000000)
+  (enable-recursive-minibuffers t)
   :init
   (display-time-mode)
   (when (string= system-type "darwin")
@@ -350,8 +345,8 @@
       (setq dired-use-ls-dired t
             insert-directory-program ls-exe)))
   :bind
-  ("C-M-S-<left>" . previous-buffer)
-  ("C-M-S-<right>" . next-buffer))
+  (("C-<left>" . previous-buffer)
+   ("C-<right>" . next-buffer)))
 
 ;;; load etc
 (setq em-etc-directory
