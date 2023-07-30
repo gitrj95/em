@@ -79,6 +79,13 @@
         ("SPC" . corfu-insert-separator)
         ("M-q" . corfu-quick-insert)))
 
+(use-package kind-icon
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default)
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
 (use-package corfu-terminal
   :if
   (not (display-graphic-p))
@@ -175,12 +182,16 @@
   (eshell-mode . eat-eshell-mode)
   (eshell-mode . eat-eshell-visual-command-mode))
 
-(use-package eglot)
+(use-package eglot
+  :config
+  (define-key eglot-mode-map (kbd "<f5>") #'eglot-format)
+  (define-key eglot-mode-map (kbd "<f6>") #'eglot-rename))
 
 (use-package consult-eglot
   :after (consult eglot)
   :config
-  (define-key eglot-mode-map (kbd "M-g s") #'consult-eglot-symbols))
+  (define-key eglot-mode-map (kbd "M-g s") #'consult-eglot-symbols)
+  (define-key eglot-mode-map (kbd "M-g e") #'consult-flymake))
 
 (use-package buffer-env)
 
@@ -205,7 +216,6 @@
 
 (use-package org-modern
   :if (display-graphic-p)
-  :after org
   :init
   (global-org-modern-mode))
 
@@ -339,7 +349,9 @@
   (gc-cons-threshold 100000000)
   (enable-recursive-minibuffers t)
   :init
-  (display-time-mode)
+  (display-time-mode +1)
+  (column-number-mode +1)
+  (scroll-bar-mode -1)
   (when (string= system-type "darwin")
     (when-let ((ls-exe (executable-find "gls")))
       (setq dired-use-ls-dired t
