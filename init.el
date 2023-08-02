@@ -74,6 +74,7 @@
 (use-package corfu
   :init
   (global-corfu-mode)
+  (corfu-echo-mode)
   :bind
   (:map corfu-map
         ("SPC" . corfu-insert-separator)
@@ -204,6 +205,8 @@
 
 (use-package magit
   :bind ("C-x g" . magit))
+
+(use-package tmr)
 
 (use-package org
   :custom
