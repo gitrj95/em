@@ -285,6 +285,7 @@
   (notmuch-search-oldest-first nil))
 
 (use-package ef-themes
+  ;; use this for gui-related things
   :init
   (set-face-attribute 'default nil :family "Iosevka Comfy Fixed")
   (set-face-attribute 'default nil :height 160)
@@ -294,6 +295,10 @@
                 scroll-margin 0
                 next-screen-context-lines 0
                 cursor-type 'box)
+  (display-time-mode +1)
+  (column-number-mode +1)
+  (scroll-bar-mode -1)
+  (pixel-scroll-precision-mode +1)
   (defun em-load-light-theme ()
     (interactive)
     (ef-themes-load-random 'light))
@@ -352,9 +357,6 @@
   (gc-cons-threshold 100000000)
   (enable-recursive-minibuffers t)
   :init
-  (display-time-mode +1)
-  (column-number-mode +1)
-  (scroll-bar-mode -1)
   (when (string= system-type "darwin")
     (when-let ((ls-exe (executable-find "gls")))
       (setq dired-use-ls-dired t
