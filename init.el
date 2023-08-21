@@ -225,12 +225,6 @@
 (use-package all-the-icons
   :if (display-graphic-p))
 
-(use-package dired-preview
-  :custom
-  (dired-preview-delay 0)
-  :hook
-  (dired-mode . dired-preview-mode))
-
 (use-package all-the-icons-dired
   :after all-the-icons
   :hook
