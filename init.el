@@ -178,11 +178,6 @@
 
 (use-package wgrep)
 
-(use-package eat
-  :hook
-  (eshell-mode . eat-eshell-mode)
-  (eshell-mode . eat-eshell-visual-command-mode))
-
 (use-package eglot
   :config
   (define-key eglot-mode-map (kbd "<f5>") #'eglot-format)
@@ -195,6 +190,8 @@
   (define-key eglot-mode-map (kbd "M-g e") #'consult-flymake))
 
 (use-package buffer-env)
+
+(use-package vterm)
 
 (use-package vc
   :bind
