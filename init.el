@@ -243,10 +243,10 @@
   (dired-mode . denote-dired-mode)
   :bind
   (("C-c n n" . denote)
-   ("C-c n i" . denote-link)
-   ("C-c n b" . denote-link-backlinks)
-   ("C-c n l" . denote-link-find-file)
-   ("C-c n r" . denote-rename)
+   ("C-c n i" . denote-find-link)
+   ("C-c n b" . denote-find-backlink)
+   ("C-c n B" . denote-backlinks)
+   ("C-c n r" . denote-rename-file)
    ("C-c n d" . denote-date)
    ("C-c n s" . denote-subdirectory)))
 
