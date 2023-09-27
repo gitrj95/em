@@ -246,7 +246,7 @@
    ("C-c n i" . denote-find-link)
    ("C-c n b" . denote-find-backlink)
    ("C-c n B" . denote-backlinks)
-   ("C-c n r" . denote-rename-file)
+   ("C-c n r" . denote-rename-file-using-front-matter)
    ("C-c n d" . denote-date)
    ("C-c n s" . denote-subdirectory)))
 
