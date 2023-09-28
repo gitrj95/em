@@ -171,6 +171,8 @@
   (keycast-mode-line-mode))
 
 (use-package jinx
+  :custom
+  (global-jinx-modes t)
   :init
   (global-jinx-mode)
   :bind
@@ -248,7 +250,9 @@
    ("C-c n B" . denote-backlinks)
    ("C-c n r" . denote-rename-file-using-front-matter)
    ("C-c n d" . denote-date)
-   ("C-c n s" . denote-subdirectory)))
+   ("C-c n s" . denote-subdirectory)
+   ("C-c n a" . denote-keywords-add)
+   ("C-c n k" . denote-keywords-remove)))
 
 (use-package consult-notes
   :custom
