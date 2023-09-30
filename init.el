@@ -28,7 +28,7 @@
 
 (use-package exec-path-from-shell
   :custom
-  (exec-path-from-shell-variables '("PATH" "MANPATH" "PYTHONPATH"))
+  (exec-path-from-shell-variables '("PATH" "MANPATH"))
   :init
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize))
