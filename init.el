@@ -260,8 +260,8 @@
   :config
   (consult-notes-denote-mode)
   :bind
-  (("M-g n" . consult-notes)
-   ("M-s n" . consult-notes-search-in-all-notes)))
+  (("C-c n M-g" . consult-notes)
+   ("C-c n M-s" . consult-notes-search-in-all-notes)))
 
 (use-package pdf-tools
   :init
@@ -315,6 +315,9 @@
 
 (use-package recentf
   :init (recentf-mode))
+
+(use-package repeat
+  :init (repeat-mode))
 
 (use-package tempel
   :bind ("M-+" . tempel-complete)
