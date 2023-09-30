@@ -359,6 +359,7 @@
     (when-let ((ls-exe (executable-find "gls")))
       (setq dired-use-ls-dired t
             insert-directory-program ls-exe)))
+  (add-hook 'before-save-hook #'delete-trailing-whitespace)
   :bind
   (("C-<left>" . previous-buffer)
    ("C-<right>" . next-buffer)))
