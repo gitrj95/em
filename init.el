@@ -181,6 +181,8 @@
 (use-package wgrep)
 
 (use-package eglot
+  :custom
+  (eglot-sync-connect 0)
   :config
   (define-key eglot-mode-map (kbd "<f5>") #'eglot-format)
   (define-key eglot-mode-map (kbd "<f6>") #'eglot-rename))
