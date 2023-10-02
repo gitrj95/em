@@ -59,6 +59,11 @@
   :demand t
   :bind ("C-x u" . vundo))
 
+(use-package expreg
+  :bind
+  ("C-@" . expreg-expand)
+  ("C-#" . expreg-contract))
+
 (use-package tramp
   :config
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
@@ -269,10 +274,6 @@
   :init
   (pdf-loader-install))
 
-(use-package devdocs
-  :bind
-  ("C-h D" . devdocs-lookup))
-
 (use-package elfeed
   :bind
   ("C-x w" . elfeed))
@@ -320,19 +321,6 @@
 
 (use-package repeat
   :init (repeat-mode))
-
-(use-package tempel
-  :bind ("M-+" . tempel-complete)
-  :init
-  (defun tempel-setup-capf ()
-    (setq-local completion-at-point-functions
-                (cons #'tempel-expand
-                      completion-at-point-functions)))
-  (add-hook 'prog-mode-hook 'tempel-setup-capf)
-  (add-hook 'text-mode-hook 'tempel-setup-capf))
-
-(use-package tempel-collection
-  :after tempel)
 
 (use-package proced
   :bind ("C-x P" . proced)
