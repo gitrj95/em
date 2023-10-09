@@ -12,9 +12,9 @@
     (make-directory expanded-f)))
 
 (setq package-archives
-      '(("melpa" . "https://melpa.org/packages/")
-        ("gnu" . "https://elpa.gnu.org/packages/")
-        ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+       '(("gnu" . "https://elpa.gnu.org/packages/")
+        ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+        ("melpa" . "https://melpa.org/packages/")))
 (require 'package)
 (package-initialize)
 
@@ -200,7 +200,14 @@
 
 (use-package buffer-env)
 
-(use-package vterm)
+(use-package eat
+  :bind
+  ("<f9>" . eshell)
+  :custom
+  (eat-term-name "eat-mono")
+  :hook
+  (eshell-mode . eat-eshell-mode)
+  (eshell-mode . eat-eshell-visual-command-mode))
 
 (use-package vc
   :bind
