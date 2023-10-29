@@ -1,38 +1,41 @@
 ;;;; em init
 ;;;; rj
 
-(when (native-comp-available-p)
-  (setq-default native-comp-async-report-warnings-errors nil))
-
-(setq custom-file (make-temp-file "emacs-custom"))
-(setq em-notes-directory "~/notes")
-
-(let ((expanded-f (expand-file-name em-notes-directory)))
-  (unless (file-directory-p expanded-f)
-    (make-directory expanded-f)))
-
-(setq package-archives
-       '(("gnu" . "https://elpa.gnu.org/packages/")
-        ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-        ("melpa" . "https://melpa.org/packages/")))
-(require 'package)
-(package-initialize)
-
-(setq use-package-always-ensure t)
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(custom-set-variables
- '(use-package-enable-imenu-support t))
 (eval-when-compile (require 'use-package))
+(use-package emacs
+  :custom
+  (package-archives
+   '(("gnu" . "https://elpa.gnu.org/packages/")
+     ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+     ("melpa" . "https://melpa.org/packages/")))
+  (use-package-always-ensure t)
+  (read-process-output-max (* 4 1024 1024))
+  (enable-recursive-minibuffers t)
+  (use-package-enable-imenu-support t)
+  (org-startup-indented t)
+  (native-comp-async-report-warnings-errors nil)
+  (custom-file (make-temp-file "emacs-custom"))
+  :init
+  (package-initialize)
+  (setq em-notes-directory "~/notes")
+  (when (string= system-type "darwin")
+    (when-let ((ls-exe (executable-find "gls")))
+      (setq dired-use-ls-dired t
+            insert-directory-program ls-exe)))
+  (add-hook 'before-save-hook #'delete-trailing-whitespace)
+  (let ((expanded-f (expand-file-name em-notes-directory)))
+    (unless (file-directory-p expanded-f)
+      (make-directory expanded-f)))
+  :bind
+  (("C-<left>" . previous-buffer)
+   ("C-<right>" . next-buffer)))
 
 (use-package exec-path-from-shell
   :custom
   (exec-path-from-shell-variables '("PATH" "MANPATH"))
   :init
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize))
-  (when (daemonp)
+  (when (or (memq window-system '(mac ns x))
+	    (daemonp))
     (exec-path-from-shell-initialize)))
 
 (use-package windmove
@@ -42,6 +45,8 @@
    ("C-M-<left>" . windmove-left)
    ("C-M-<right>" . windmove-right)))
 
+(unless (package-installed-p 'trail)
+  (package-vc-install "https://github.com/gitrj95/trail.el"))
 (use-package trail
   :after savehist
   :custom
@@ -232,8 +237,16 @@
 
 (use-package org-modern
   :if (display-graphic-p)
+  :custom
+  (org-modern-table nil)
   :init
   (global-org-modern-mode))
+
+(unless (package-installed-p 'org-modern-indent)
+  (package-vc-install "https://github.com/jdtsmith/org-modern-indent"))
+(use-package org-modern-indent
+  :config
+  (add-hook 'org-mode-hook #'org-modern-indent-mode 90))
 
 (use-package all-the-icons
   :if (display-graphic-p))
@@ -259,6 +272,7 @@
   (dired-mode . denote-dired-mode)
   :bind
   (("C-c n n" . denote)
+   ("C-c n l" . denote-link)
    ("C-c n i" . denote-find-link)
    ("C-c n b" . denote-find-backlink)
    ("C-c n B" . denote-backlinks)
@@ -345,21 +359,6 @@
 (use-package ibuffer
   :bind
   ("C-x C-b" . ibuffer))
-
-(use-package emacs
-  :custom
-  (read-process-output-max (* 4 1024 1024))
-  (gc-cons-threshold 100000000)
-  (enable-recursive-minibuffers t)
-  :init
-  (when (string= system-type "darwin")
-    (when-let ((ls-exe (executable-find "gls")))
-      (setq dired-use-ls-dired t
-            insert-directory-program ls-exe)))
-  (add-hook 'before-save-hook #'delete-trailing-whitespace)
-  :bind
-  (("C-<left>" . previous-buffer)
-   ("C-<right>" . next-buffer)))
 
 ;;; load etc
 (setq em-etc-directory
