@@ -50,7 +50,8 @@
 (use-package trail
   :after savehist
   :custom
-  (trail-mark-around-functions '(xref-find-definitions xref-find-references))
+  (trail-mark-around-functions
+   '(xref-find-definitions xref-find-references org-open-at-point))
   (trail-ring-max 100)
   :init
   (trail-mode)
@@ -72,6 +73,11 @@
 (use-package tramp
   :config
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
+
+(use-package ediff
+  :custom
+  (ediff-split-window-function 'split-window-horizontally)
+  (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package vertico
   :init
@@ -231,6 +237,8 @@
   (org-agenda-files `(,em-notes-directory))
   (org-hide-emphasis-markers t)
   (org-pretty-entities t)
+  :config
+  (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
   :bind
   (("C-c l" . org-store-link)
    ("C-c a" . org-agenda)))
