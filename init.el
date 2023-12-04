@@ -199,15 +199,30 @@
 (use-package eglot
   :custom
   (eglot-sync-connect 0)
+  :init
+  (setq eglot-stay-out-of '(flymake))
+  (add-hook
+   'eglot--managed-mode-hook
+   (lambda ()
+     ;; don't clobber diagnostics backends
+     (add-hook 'flymake-diagnostic-functions 'eglot-flymake-backend nil t)
+     (flymake-mode 1)))
   :config
   (define-key eglot-mode-map (kbd "<f5>") #'eglot-format)
   (define-key eglot-mode-map (kbd "<f6>") #'eglot-rename))
+
+(use-package hl-todo
+  :init
+  (global-hl-todo-mode)
+  (add-hook 'flymake-diagnostic-functions #'hl-todo-flymake))
 
 (use-package consult-eglot
   :after (consult eglot)
   :config
   (define-key eglot-mode-map (kbd "M-g s") #'consult-eglot-symbols)
-  (define-key eglot-mode-map (kbd "M-g e") #'consult-flymake))
+  (define-key eglot-mode-map (kbd "M-g e e") #'consult-flymake)
+  (define-key eglot-mode-map (kbd "M-g e n") #'flymake-goto-next-error)
+  (define-key eglot-mode-map (kbd "M-g e p") #'flymake-goto-prev-error))
 
 (use-package buffer-env)
 
