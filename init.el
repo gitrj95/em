@@ -212,6 +212,12 @@
   (define-key eglot-mode-map (kbd "<f6>") #'eglot-rename))
 
 (use-package hl-todo
+  :custom
+  (hl-todo-keyword-faces
+   '(("TODO" . hl-line-face)
+     ("NOTE" . hl-line-face)
+     ("DEBUG" . compilation-error-face)
+     ("FIXME" . compilation-error-face)))
   :init
   (global-hl-todo-mode)
   (add-hook 'flymake-diagnostic-functions #'hl-todo-flymake))
