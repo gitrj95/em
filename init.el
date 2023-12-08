@@ -261,9 +261,7 @@
   :after (consult eglot)
   :config
   (define-key eglot-mode-map (kbd "M-g s") #'consult-eglot-symbols)
-  (define-key eglot-mode-map (kbd "M-g e e") #'consult-flymake)
-  (define-key eglot-mode-map (kbd "M-g e n") #'flymake-goto-next-error)
-  (define-key eglot-mode-map (kbd "M-g e p") #'flymake-goto-prev-error))
+  (define-key eglot-mode-map (kbd "M-g d") #'consult-flymake))
 
 (use-package buffer-env)
 
