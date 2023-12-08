@@ -53,7 +53,6 @@
                 next-screen-context-lines 0
                 cursor-type 'box)
   (display-time-mode +1)
-  (column-number-mode +1)
   (scroll-bar-mode -1)
   (pixel-scroll-precision-mode +1)
   (defun em-load-light-theme ()
@@ -117,6 +116,8 @@
   (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package vertico
+  :custom
+  (vertico-count 3)
   :init
   (vertico-mode)
   :bind
@@ -125,6 +126,8 @@
         ("M-q" . vertico-quick-insert)))
 
 (use-package corfu
+  :custom
+  (corfu-count 3)
   :init
   (global-corfu-mode)
   (corfu-echo-mode)
@@ -160,6 +163,7 @@
   (prefix-help-command #'embark-prefix-help-command)
   :bind
   (("C-;" . embark-act)
+   ("C-M-;" . embark-act-all)
    ("C-'" . embark-dwim)))
 
 (use-package consult
