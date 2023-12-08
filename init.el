@@ -30,6 +30,43 @@
   (("C-<left>" . previous-buffer)
    ("C-<right>" . next-buffer)))
 
+(use-package ef-themes
+  ;; use this for gui-related things
+  :custom
+  (mode-line-format
+   '("%e" mode-line-front-space
+     (:propertize
+      ("" mode-line-mule-info mode-line-client mode-line-modified mode-line-remote)
+      display
+      (min-width
+       (1.0)))
+     mode-line-frame-identification mode-line-buffer-identification " "
+     " " mode-line-misc-info mode-line-end-spaces))
+  (display-time-default-load-average nil)
+  :init
+  (set-face-attribute 'default nil :family "Iosevka Comfy Fixed")
+  (set-face-attribute 'default nil :height 160)
+  (setq-default line-spacing .1
+                scroll-preserve-screen-position t
+                scroll-conservatively 1
+                scroll-margin 0
+                next-screen-context-lines 0
+                cursor-type 'box)
+  (display-time-mode +1)
+  (column-number-mode +1)
+  (scroll-bar-mode -1)
+  (pixel-scroll-precision-mode +1)
+  (defun em-load-light-theme ()
+    (interactive)
+    (ef-themes-load-random 'light))
+  (defun em-load-dark-theme ()
+    (interactive)
+    (ef-themes-load-random 'dark))
+  :bind
+  (("<f7>" . em-load-light-theme)
+   ("<f8>" . em-load-dark-theme)))
+
+
 (use-package exec-path-from-shell
   :custom
   (exec-path-from-shell-variables '("PATH" "MANPATH"))
@@ -180,12 +217,6 @@
   (:map isearch-mode-map
         ("M-g c" . avy-isearch)))
 
-(use-package keycast
-  :custom
-  (keycast-mode-line-remove-tail-elements nil)
-  :init
-  (keycast-mode-line-mode))
-
 (use-package jinx
   :custom
   (global-jinx-modes t)
@@ -331,31 +362,6 @@
 (use-package notmuch
   :custom
   (notmuch-search-oldest-first nil))
-
-(use-package ef-themes
-  ;; use this for gui-related things
-  :init
-  (set-face-attribute 'default nil :family "Iosevka Comfy Fixed")
-  (set-face-attribute 'default nil :height 160)
-  (setq-default line-spacing .1
-                scroll-preserve-screen-position t
-                scroll-conservatively 1
-                scroll-margin 0
-                next-screen-context-lines 0
-                cursor-type 'box)
-  (display-time-mode +1)
-  (column-number-mode +1)
-  (scroll-bar-mode -1)
-  (pixel-scroll-precision-mode +1)
-  (defun em-load-light-theme ()
-    (interactive)
-    (ef-themes-load-random 'light))
-  (defun em-load-dark-theme ()
-    (interactive)
-    (ef-themes-load-random 'dark))
-  :bind
-  (("<f7>" . em-load-light-theme)
-   ("<f8>" . em-load-dark-theme)))
 
 (use-package savehist
   :init
