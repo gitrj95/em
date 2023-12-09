@@ -276,6 +276,12 @@
   (eshell-mode . eat-eshell-mode)
   (eshell-mode . eat-eshell-visual-command-mode))
 
+(use-package ansi-color
+  :init
+  (defun colorize-compilation-buffer ()
+    (ansi-color-apply-on-region compilation-filter-start (point)))
+  (add-hook 'compilation-filter-hook #'colorize-compilation-buffer))
+
 (use-package vc
   :bind
   (:map vc-prefix-map
