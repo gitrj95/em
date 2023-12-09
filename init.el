@@ -119,11 +119,14 @@
   :custom
   (vertico-count 3)
   :init
+  (add-hook 'minibuffer-setup-hook #'vertico-repeat-save)
   (vertico-mode)
   :bind
+  ("M-R" . vertico-repeat)
   (:map vertico-map
-        ("M-DEL" . vertico-directory-delete-word)
-        ("M-q" . vertico-quick-insert)))
+	("M-N" . vertico-repeat-next)
+	("M-P" . vertico-repeat-previous)
+        ("M-DEL" . vertico-directory-delete-word)))
 
 (use-package corfu
   :custom
@@ -133,8 +136,7 @@
   (corfu-echo-mode)
   :bind
   (:map corfu-map
-        ("SPC" . corfu-insert-separator)
-        ("M-q" . corfu-quick-insert)))
+	("SPC" . corfu-insert-separator)))
 
 (use-package kind-icon
   :after corfu
@@ -369,7 +371,7 @@
   :init
   (savehist-mode)
   (setq savehist-additional-variables
-        '(trail-ring)))
+        '(trail-ring vertico-repeat-history)))
 
 (use-package saveplace
   :init (save-place-mode))
