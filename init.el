@@ -22,7 +22,6 @@
     (when-let ((ls-exe (executable-find "gls")))
       (setq dired-use-ls-dired t
             insert-directory-program ls-exe)))
-  (add-hook 'before-save-hook #'delete-trailing-whitespace)
   (let ((expanded-f (expand-file-name em-notes-directory)))
     (unless (file-directory-p expanded-f)
       (make-directory expanded-f)))
