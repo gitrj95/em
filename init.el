@@ -30,7 +30,7 @@
   (("C-<left>" . previous-buffer)
    ("C-<right>" . next-buffer)))
 
-(use-package ef-themes
+(use-package modus-themes
   ;; use this for gui-related things
   :custom
   (mode-line-format
@@ -40,9 +40,10 @@
       display
       (min-width
        (1.0)))
-     mode-line-frame-identification mode-line-buffer-identification " "
-     " " mode-line-misc-info mode-line-end-spaces))
+     mode-line-frame-identification mode-line-buffer-identification mode-line-modes mode-line-misc-info
+     mode-line-end-spaces))
   (display-time-default-load-average nil)
+  (modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
   :init
   (set-face-attribute 'default nil :family "Iosevka Comfy Fixed")
   (set-face-attribute 'default nil :height 160)
@@ -55,16 +56,8 @@
   (display-time-mode +1)
   (scroll-bar-mode -1)
   (pixel-scroll-precision-mode +1)
-  (defun em-load-light-theme ()
-    (interactive)
-    (ef-themes-load-random 'light))
-  (defun em-load-dark-theme ()
-    (interactive)
-    (ef-themes-load-random 'dark))
   :bind
-  (("<f7>" . em-load-light-theme)
-   ("<f8>" . em-load-dark-theme)))
-
+  ("<f8>" . modus-themes-toggle))
 
 (use-package exec-path-from-shell
   :custom
@@ -268,10 +261,9 @@
 (use-package buffer-env)
 
 (use-package eat
+  ;; extant bug in `https://codeberg.org/akib/emacs-eat/issues/109'
   :bind
   ("<f9>" . eshell)
-  :custom
-  (eat-term-name "eat-mono")
   :hook
   (eshell-mode . eat-eshell-mode)
   (eshell-mode . eat-eshell-visual-command-mode))
@@ -410,6 +402,5 @@
       (file-truename (concat user-emacs-directory "etc/")))
 (mapcar #'load (directory-files em-etc-directory t "elc?$"))
 
-;;; load light/dark theme via user
-(let ((current-prefix-arg t))
-  (call-interactively #'ef-themes-load-random))
+;;; user chooses theme
+(call-interactively #'modus-themes-select)
