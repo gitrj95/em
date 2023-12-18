@@ -47,6 +47,7 @@
      mode-line-end-spaces))
   (display-time-default-load-average nil)
   (modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
+  (menu-bar-mode nil)
   :init
   (set-face-attribute 'default nil :family "Iosevka Comfy Fixed")
   (set-face-attribute 'default nil :height 160)
