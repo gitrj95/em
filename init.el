@@ -1,6 +1,11 @@
 ;;;; em init
 ;;;; rj
 
+(setq em-notes-directory "~/notes"
+      ;; e.g. chicago
+      calendar-latitude 41.881832
+      calendar-longitude -87.623177)
+
 (eval-when-compile (require 'use-package))
 (use-package emacs
   :custom
@@ -17,7 +22,6 @@
   (custom-file (make-temp-file "emacs-custom"))
   :init
   (package-initialize)
-  (setq em-notes-directory "~/notes")
   (when (string= system-type "darwin")
     (when-let ((ls-exe (executable-find "gls")))
       (setq dired-use-ls-dired t
@@ -54,9 +58,13 @@
                 cursor-type 'box)
   (display-time-mode +1)
   (scroll-bar-mode -1)
-  (pixel-scroll-precision-mode +1)
-  :bind
-  ("<f8>" . modus-themes-toggle))
+  (pixel-scroll-precision-mode +1))
+
+(use-package circadian
+  :init
+  (setq circadian-themes '((:sunrise . modus-operandi-tinted)
+                           (:sunset  . modus-vivendi-tinted)))
+  (circadian-setup))
 
 (use-package exec-path-from-shell
   :custom
@@ -400,6 +408,3 @@
 (setq em-etc-directory
       (file-truename (concat user-emacs-directory "etc/")))
 (mapcar #'load (directory-files em-etc-directory t "elc?$"))
-
-;;; user chooses theme
-(call-interactively #'modus-themes-select)
