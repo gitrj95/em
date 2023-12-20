@@ -312,6 +312,8 @@
   :init
   (global-org-modern-mode))
 
+(use-package crdt)
+
 (unless (package-installed-p 'org-modern-indent)
   (package-vc-install "https://github.com/jdtsmith/org-modern-indent"))
 (use-package org-modern-indent
