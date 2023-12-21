@@ -1,79 +1,65 @@
 ;;;; em init
 ;;;; rj
 
-(setq em-notes-directory "~/notes"
-      ;; e.g. chicago
-      calendar-latitude 41.881832
-      calendar-longitude -87.623177)
+;;; comms
 
-(eval-when-compile (require 'use-package))
-(use-package emacs
+(let ((expanded-f (expand-file-name em-notes-directory)))
+  (unless (file-directory-p expanded-f)
+    (make-directory expanded-f)))
+
+(use-package org
   :custom
-  (package-archives
-   '(("gnu" . "https://elpa.gnu.org/packages/")
-     ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-     ("melpa" . "https://melpa.org/packages/")))
-  (use-package-always-ensure t)
-  (read-process-output-max (* 4 1024 1024))
-  (enable-recursive-minibuffers t)
-  (use-package-enable-imenu-support t)
-  (org-startup-indented t)
-  (native-comp-async-report-warnings-errors nil)
-  (custom-file (make-temp-file "emacs-custom"))
-  :init
-  (package-initialize)
-  (when (string= system-type "darwin")
-    (when-let ((ls-exe (executable-find "gls")))
-      (setq dired-use-ls-dired t
-            insert-directory-program ls-exe)))
-  (let ((expanded-f (expand-file-name em-notes-directory)))
-    (unless (file-directory-p expanded-f)
-      (make-directory expanded-f)))
+  (org-agenda-files `(,em-notes-directory))
+  (org-startup-indented +1)
+  :config
+  (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
   :bind
-  (("C-<left>" . previous-buffer)
-   ("C-<right>" . next-buffer)))
+  (("C-c l" . org-store-link)
+   ("C-c a" . org-agenda)))
 
-(use-package modus-themes
-  ;; use this for gui-related things
+(use-package denote
   :custom
-  (mode-line-format
-   '("%e" mode-line-front-space
-     (:propertize
-      ("" mode-line-mule-info mode-line-client mode-line-modified mode-line-remote)
-      display
-      (min-width
-       (1.0)))
-     mode-line-frame-identification mode-line-buffer-identification mode-line-modes mode-line-misc-info
-     mode-line-end-spaces))
-  (display-time-default-load-average nil)
-  (modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
-  (menu-bar-mode nil)
-  :init
-  (set-face-attribute 'default nil :family "Iosevka Comfy Fixed")
-  (set-face-attribute 'default nil :height 160)
-  (setq-default line-spacing .1
-                scroll-preserve-screen-position t
-                scroll-conservatively 1
-                scroll-margin 0
-                next-screen-context-lines 0
-                cursor-type 'box)
-  (display-time-mode +1)
-  (scroll-bar-mode -1)
-  (pixel-scroll-precision-mode +1))
+  (denote-directory (expand-file-name em-notes-directory))
+  (denote-infer-keywords t)
+  (denote-sort-keywords t)
+  :hook
+  (dired-mode . denote-dired-mode)
+  :bind
+  (("C-c n n" . denote)
+   ("C-c n l" . denote-link)
+   ("C-c n i" . denote-find-link)
+   ("C-c n b" . denote-find-backlink)
+   ("C-c n B" . denote-backlinks)
+   ("C-c n r" . denote-rename-file-using-front-matter)
+   ("C-c n d" . denote-date)
+   ("C-c n s" . denote-subdirectory)
+   ("C-c n a" . denote-keywords-add)
+   ("C-c n k" . denote-keywords-remove)))
 
-(use-package circadian
-  :init
-  (setq circadian-themes '((:sunrise . modus-operandi-tinted)
-                           (:sunset  . modus-vivendi-tinted)))
-  (circadian-setup))
-
-(use-package exec-path-from-shell
+(use-package consult-notes
   :custom
-  (exec-path-from-shell-variables '("PATH" "MANPATH"))
-  :init
-  (when (or (memq window-system '(mac ns x))
-	    (daemonp))
-    (exec-path-from-shell-initialize)))
+  (consult-notes-denote-dir nil)
+  :config
+  (consult-notes-denote-mode +1)
+  :bind
+  (("C-c n M-g" . consult-notes)
+   ("C-c n M-s" . consult-notes-search-in-all-notes)))
+
+(use-package pdf-tools
+  :config
+  (pdf-loader-install))
+
+(use-package elfeed
+  :bind
+  ("C-x w" . elfeed))
+
+(use-package crdt)
+
+(use-package notmuch
+  :custom
+  (notmuch-search-oldest-first nil))
+
+;;; navigation
 
 (use-package windmove
   :bind
@@ -102,23 +88,32 @@
   :demand t
   :bind ("C-x u" . vundo))
 
-(use-package expreg
+(use-package avy
   :bind
-  ("C-@" . expreg-expand)
-  ("C-#" . expreg-contract))
+  ("M-g c" . avy-goto-char-timer)
+  (:map isearch-mode-map
+        ("M-g c" . avy-isearch)))
 
-(use-package tramp
-  :config
-  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
+(use-package ibuffer
+  :bind
+  ("C-x C-b" . ibuffer))
 
-(use-package ediff
-  :custom
-  (ediff-split-window-function 'split-window-horizontally)
-  (ediff-window-setup-function 'ediff-setup-windows-plain))
+(use-package consult-dir
+  :bind
+  ("C-x C-d" . consult-dir)
+  (:map vertico-map
+        ("C-x C-d" . consult-dir)
+        ("C-x C-j" . consult-dir-jump-file)))
+
+(use-package consult-eglot
+  :after (consult eglot))
+
+;;; completion
 
 (use-package vertico
   :custom
   (vertico-count 3)
+  (enable-recursive-minibuffers)
   :init
   (add-hook 'minibuffer-setup-hook #'vertico-repeat-save)
   (vertico-mode)
@@ -139,13 +134,6 @@
   (:map corfu-map
 	("SPC" . corfu-insert-separator)))
 
-(use-package kind-icon
-  :after corfu
-  :custom
-  (kind-icon-default-face 'corfu-default)
-  :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
-
 (use-package corfu-terminal
   :if
   (not (display-graphic-p))
@@ -153,13 +141,12 @@
   (corfu-terminal-mode))
 
 (use-package orderless
-  :demand t
   :custom
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package marginalia
-  :init (marginalia-mode))
+  :config (marginalia-mode))
 
 (use-package embark
   :custom
@@ -204,25 +191,56 @@
   (xref-show-definitions-function #'consult-xref)
   :hook
   ((embark-collect-mode completion-list-mode) . consult-preview-at-point-mode)
-  :init
+  :config
   (advice-add #'register-preview :override #'consult-register-window))
 
 (use-package embark-consult
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
-(use-package consult-dir
-  :bind
-  ("C-x C-d" . consult-dir)
-  (:map vertico-map
-        ("C-x C-d" . consult-dir)
-        ("C-x C-j" . consult-dir-jump-file)))
+;;; gui
 
-(use-package avy
-  :bind
-  ("M-g c" . avy-goto-char-timer)
-  (:map isearch-mode-map
-        ("M-g c" . avy-isearch)))
+(use-package circadian
+  :config
+  (setq circadian-themes '((:sunrise . modus-operandi)
+                           (:sunset  . modus-vivendi)))
+  (circadian-setup))
+
+(use-package ediff
+  :custom
+  (ediff-split-window-function 'split-window-horizontally)
+  (ediff-window-setup-function 'ediff-setup-windows-plain))
+
+(use-package org-modern
+  :if (display-graphic-p)
+  :custom
+  (org-modern-hide-stars nil)
+  (org-modern-table nil)
+  (org-modern-list
+   '((?* . "•")
+     (?+ . "‣")))
+  :hook
+  (org-mode . org-modern-mode)
+  (org-agenda-finalize . org-modern-agenda))
+
+(unless (package-installed-p 'org-modern-indent)
+  (package-vc-install "https://github.com/jdtsmith/org-modern-indent"))
+(use-package org-modern-indent
+  :config
+  (add-hook 'org-mode-hook #'org-modern-indent-mode 90))
+
+(use-package hl-todo
+  :custom
+  (hl-todo-keyword-faces
+   '(("TODO" . hl-line-face)
+     ("NOTE" . hl-line-face)
+     ("DEBUG" . compilation-error-face)
+     ("FIXME" . compilation-error-face)))
+  :config
+  (global-hl-todo-mode)
+  (add-hook 'flymake-diagnostic-functions #'hl-todo-flymake))
+
+;;; editing
 
 (use-package jinx
   :custom
@@ -237,36 +255,34 @@
 (use-package eglot
   :custom
   (eglot-sync-connect 0)
-  :init
+  :config
   (setq eglot-stay-out-of '(flymake))
   (add-hook
    'eglot--managed-mode-hook
    (lambda ()
-     ;; don't clobber diagnostics backends
+     ;; NOTE: don't clobber diagnostics backends
      (add-hook 'flymake-diagnostic-functions 'eglot-flymake-backend nil t)
-     (flymake-mode 1)))
-  :config
-  (define-key eglot-mode-map (kbd "<f5>") #'eglot-format)
-  (define-key eglot-mode-map (kbd "<f6>") #'eglot-rename))
+     (flymake-mode +1)))
+  :bind
+  ("<f5>" . #'eglot)
+  (:map eglot-mode-map
+	("<f6>" . eglot-format)
+	("<f7>" . eglot-rename)
+	("M-g s" . consult-eglot-symbols)
+	("M-g d" . consult-flymake)))
 
-(use-package hl-todo
-  :custom
-  (hl-todo-keyword-faces
-   '(("TODO" . hl-line-face)
-     ("NOTE" . hl-line-face)
-     ("DEBUG" . compilation-error-face)
-     ("FIXME" . compilation-error-face)))
+;;; env
+
+(use-package savehist
   :init
-  (global-hl-todo-mode)
-  (add-hook 'flymake-diagnostic-functions #'hl-todo-flymake))
+  (savehist-mode)
+  (setq savehist-additional-variables
+        '(trail-ring vertico-repeat-history)))
 
-(use-package consult-eglot
-  :after (consult eglot)
-  :config
-  (define-key eglot-mode-map (kbd "M-g s") #'consult-eglot-symbols)
-  (define-key eglot-mode-map (kbd "M-g d") #'consult-flymake))
-
-(use-package buffer-env)
+(use-package buffer-env
+  :init
+  (add-hook 'hack-local-variables-hook #'buffer-env-update)
+  (add-hook 'comint-mode-hook #'buffer-env-update))
 
 (use-package eat
   ;; extant bug in `https://codeberg.org/akib/emacs-eat/issues/109'
@@ -277,7 +293,7 @@
   (eshell-mode . eat-eshell-visual-command-mode))
 
 (use-package ansi-color
-  :init
+  :config
   (defun colorize-compilation-buffer ()
     (ansi-color-apply-on-region compilation-filter-start (point)))
   (add-hook 'compilation-filter-hook #'colorize-compilation-buffer))
@@ -292,103 +308,8 @@
 (use-package magit
   :bind ("C-x g" . magit))
 
-(use-package tmr)
-
-(use-package org
-  :custom
-  (org-agenda-files `(,em-notes-directory))
-  (org-hide-emphasis-markers t)
-  (org-pretty-entities t)
-  :config
-  (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
-  :bind
-  (("C-c l" . org-store-link)
-   ("C-c a" . org-agenda)))
-
-(use-package org-modern
-  :if (display-graphic-p)
-  :custom
-  (org-modern-table nil)
-  :init
-  (global-org-modern-mode))
-
-(use-package crdt)
-
-(unless (package-installed-p 'org-modern-indent)
-  (package-vc-install "https://github.com/jdtsmith/org-modern-indent"))
-(use-package org-modern-indent
-  :config
-  (add-hook 'org-mode-hook #'org-modern-indent-mode 90))
-
-(use-package all-the-icons
-  :if (display-graphic-p))
-
-(use-package all-the-icons-dired
-  :after all-the-icons
-  :hook
-  (dired-mode . all-the-icons-dired-mode))
-
-(use-package all-the-icons-completion
-  :after all-the-icons
-  :config
-  (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)
-  :init
-  (all-the-icons-completion-mode))
-
-(use-package denote
-  :custom
-  (denote-directory (expand-file-name em-notes-directory))
-  (denote-infer-keywords t)
-  (denote-sort-keywords t)
-  :hook
-  (dired-mode . denote-dired-mode)
-  :bind
-  (("C-c n n" . denote)
-   ("C-c n l" . denote-link)
-   ("C-c n i" . denote-find-link)
-   ("C-c n b" . denote-find-backlink)
-   ("C-c n B" . denote-backlinks)
-   ("C-c n r" . denote-rename-file-using-front-matter)
-   ("C-c n d" . denote-date)
-   ("C-c n s" . denote-subdirectory)
-   ("C-c n a" . denote-keywords-add)
-   ("C-c n k" . denote-keywords-remove)))
-
-(use-package consult-notes
-  :custom
-  (consult-notes-denote-dir nil)
-  :config
-  (consult-notes-denote-mode)
-  :bind
-  (("C-c n M-g" . consult-notes)
-   ("C-c n M-s" . consult-notes-search-in-all-notes)))
-
-(use-package pdf-tools
-  :init
-  (pdf-loader-install))
-
-(use-package elfeed
-  :bind
-  ("C-x w" . elfeed))
-
-(use-package notmuch
-  :custom
-  (notmuch-search-oldest-first nil))
-
-(use-package savehist
-  :init
-  (savehist-mode)
-  (setq savehist-additional-variables
-        '(trail-ring vertico-repeat-history)))
-
-(use-package saveplace
-  :init (save-place-mode))
-
-(use-package recentf
-  :init (recentf-mode))
-
 (use-package repeat
-  :init (repeat-mode))
+  :config (repeat-mode))
 
 (use-package proced
   :bind ("C-x P" . proced)
@@ -403,11 +324,7 @@
    'proced-format-alist
    '(custom user pid ppid sess tree pcpu pmem rss start time state (args comm))))
 
-(use-package ibuffer
-  :bind
-  ("C-x C-b" . ibuffer))
-
 ;;; load etc
 (setq em-etc-directory
       (file-truename (concat user-emacs-directory "etc/")))
-(mapcar #'load (directory-files em-etc-directory t "elc?$"))
+(mapc #'load (directory-files em-etc-directory t "elc?$"))

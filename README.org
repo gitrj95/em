@@ -1,8 +1,0 @@
-* em
-em is a minimal emacs configuration that strives to still be
-incredibly featureful
-* configure
-if you want to exercise your elisp-fu, just add whatever =.el= or
-=.elc= files to =etc/=
-* installation
-~make~. the =Makefile= is trivial

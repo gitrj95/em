@@ -1,3 +1,7 @@
 *~
 *#
-etc/*
+
+*.org
+
+bin/*
+!bin/.gitkeep
