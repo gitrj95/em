@@ -47,6 +47,17 @@
 (scroll-bar-mode -1)
 (pixel-scroll-precision-mode +1)
 
+(setq-default
+ mode-line-format
+ '("%e" mode-line-front-space
+   (:propertize
+    ("" mode-line-mule-info mode-line-client mode-line-modified mode-line-remote)
+    display
+    (min-width
+     (1.0)))
+   mode-line-frame-identification mode-line-buffer-identification " " mode-line-modes mode-line-misc-info
+   mode-line-end-spaces))
+
 ;;; config
 
 (setq em-notes-directory "~/notes"
