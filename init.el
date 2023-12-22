@@ -258,13 +258,13 @@
   :config
   (setq eglot-stay-out-of '(flymake))
   (add-hook
-   'eglot--managed-mode-hook
+   'eglot-managed-mode-hook
    (lambda ()
      ;; NOTE: don't clobber diagnostics backends
      (add-hook 'flymake-diagnostic-functions 'eglot-flymake-backend nil t)
      (flymake-mode +1)))
   :bind
-  ("<f5>" . #'eglot)
+  ("<f5>" . eglot)
   (:map eglot-mode-map
 	("<f6>" . eglot-format)
 	("<f7>" . eglot-rename)
