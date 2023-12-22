@@ -124,22 +124,6 @@
 	("M-P" . vertico-repeat-previous)
         ("M-DEL" . vertico-directory-delete-word)))
 
-(use-package corfu
-  :custom
-  (corfu-count 3)
-  :init
-  (global-corfu-mode)
-  (corfu-echo-mode)
-  :bind
-  (:map corfu-map
-	("SPC" . corfu-insert-separator)))
-
-(use-package corfu-terminal
-  :if
-  (not (display-graphic-p))
-  :init
-  (corfu-terminal-mode))
-
 (use-package orderless
   :custom
   (completion-styles '(orderless basic))
@@ -192,7 +176,14 @@
   :hook
   ((embark-collect-mode completion-list-mode) . consult-preview-at-point-mode)
   :config
-  (advice-add #'register-preview :override #'consult-register-window))
+  (advice-add #'register-preview :override #'consult-register-window)
+  ;; NOTE: use `consult-completion-in-region' if vertico is enabled
+  (setq completion-in-region-function
+	(lambda (&rest args)
+          (apply (if vertico-mode
+                     #'consult-completion-in-region
+                   #'completion--in-region)
+		 args))))
 
 (use-package embark-consult
   :hook
@@ -226,6 +217,7 @@
 (unless (package-installed-p 'org-modern-indent)
   (package-vc-install "https://github.com/jdtsmith/org-modern-indent"))
 (use-package org-modern-indent
+  :if (display-graphic-p)
   :config
   (add-hook 'org-mode-hook #'org-modern-indent-mode 90))
 
