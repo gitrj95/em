@@ -325,6 +325,7 @@
    '(custom user pid ppid sess tree pcpu pmem rss start time state (args comm))))
 
 ;;; load etc
+
 (setq em-etc-directory
       (file-truename (concat user-emacs-directory "etc/")))
 (mapc #'load (directory-files em-etc-directory t "elc?$"))
