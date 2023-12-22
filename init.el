@@ -318,11 +318,12 @@
   (proced-goal-attribute nil)
   (proced-show-remote-processes t)
   (proced-enable-color-flag t)
-  (proced-format 'custom)
+  (proced-format 'em)
+  (proced-sort 'rss)
   :config
   (add-to-list
    'proced-format-alist
-   '(custom user pid ppid sess tree pcpu pmem rss start time state (args comm))))
+   '(em user group pid tree pgrp sess rss pmem pcpu start time state (args comm))))
 
 ;;; load etc
 
