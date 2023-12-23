@@ -275,7 +275,7 @@
   :init
   (savehist-mode)
   (setq savehist-additional-variables
-        '(trail-ring vertico-repeat-history)))
+        (append savehist-additional-variables '(trail-ring vertico-repeat-history))))
 
 (use-package buffer-env
   :init
