@@ -3,5 +3,5 @@
 
 *.org
 
-bin/*
-!bin/.gitkeep
+etc/*
+!etc/.gitkeep
