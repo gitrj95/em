@@ -255,8 +255,14 @@
      ;; NOTE: don't clobber diagnostics backends
      (add-hook 'flymake-diagnostic-functions 'eglot-flymake-backend nil t)
      (flymake-mode +1)))
+  (defun em/eglot-toggle ()
+    (interactive)
+    (call-interactively
+     (if (eglot-managed-p)
+	 #'eglot-shutdown
+       #'eglot)))
   :bind
-  ("<f5>" . eglot)
+  ("<f5>" . em/eglot-toggle)
   (:map eglot-mode-map
 	("<f6>" . eglot-format)
 	("<f7>" . eglot-rename)
@@ -286,9 +292,9 @@
 
 (use-package ansi-color
   :config
-  (defun colorize-compilation-buffer ()
+  (defun em/colorize-compilation-buffer ()
     (ansi-color-apply-on-region compilation-filter-start (point)))
-  (add-hook 'compilation-filter-hook #'colorize-compilation-buffer))
+  (add-hook 'compilation-filter-hook #'em/colorize-compilation-buffer))
 
 (use-package vc
   :bind
