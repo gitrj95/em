@@ -195,6 +195,7 @@
   :config
   (setq circadian-themes '((:sunrise . modus-operandi)
                            (:sunset  . modus-vivendi)))
+  (add-hook 'circadian-after-load-theme-hook #'em/modus-themes-hl-todo-faces)
   (circadian-setup))
 
 (use-package ediff
@@ -222,15 +223,13 @@
   (add-hook 'org-mode-hook #'org-modern-indent-mode 90))
 
 (use-package hl-todo
-  :custom
-  (hl-todo-keyword-faces
-   '(("TODO" . hl-line-face)
-     ("NOTE" . hl-line-face)
-     ("DEBUG" . compilation-error-face)
-     ("FIXME" . compilation-error-face)))
   :config
   (global-hl-todo-mode)
   (add-hook 'flymake-diagnostic-functions #'hl-todo-flymake))
+
+(use-package spacious-padding
+  :init
+  (spacious-padding-mode))
 
 ;;; editing
 
@@ -247,6 +246,7 @@
 (use-package eglot
   :custom
   (eglot-sync-connect 0)
+  (eglot-connect-timeout 10) ; NOTE: can just `C-g' out of it
   :config
   (setq eglot-stay-out-of '(flymake))
   (add-hook
