@@ -13,9 +13,16 @@ _________________
 2. Install
 
 
-`em' is a minimal Emacs configuration that strives to still be
-feature-rich. It includes GUI, navigation, completion, editing, and
-buffer-local programming facilities, among others.
+*em* is a lightweight Emacs configuration that strives to still be
+feature-rich.
+
+The configuration aims to satisfy some criteria:
+- modern: should have rich aesthetic appeal, especially in GUI Emacs.
+- fast: after installation, boots should be easily under 1 second.
+- close-to-core: stick as close to core Emacs as possible.
+- unobtrusive: keep visual noise away.
+- semantically consistent: there's only one interface/method for doing
+  something, /e.g./ there is one mode of completion via the minibuffer.
 
 
 1 Configure
@@ -28,4 +35,4 @@ buffer-local programming facilities, among others.
 2 Install
 =========
 
-  `make'. The `Makefile' is trivial.
+  Inspect the `Makefile'. The implementation is trivial.
