@@ -266,8 +266,8 @@
   (:map eglot-mode-map
 	("<f6>" . eglot-format)
 	("<f7>" . eglot-rename)
-	("M-g s" . consult-eglot-symbols)
-	("M-g d" . consult-flymake)))
+	("<f8>" . compile)
+	("M-g s" . consult-eglot-symbols)))
 
 ;;; env
 
@@ -322,6 +322,11 @@
   (add-to-list
    'proced-format-alist
    '(em user group pid tree pgrp sess rss pmem pcpu start time state (args comm))))
+
+(use-package flymake
+  :bind
+  (:map flymake-mode-map
+	("M-g d" . consult-flymake)))
 
 ;;; load etc
 
