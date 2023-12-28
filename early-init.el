@@ -71,5 +71,6 @@
 	("melpa" . "https://melpa.org/packages/"))
       use-package-always-ensure t
       use-package-enable-imenu-support t
+      use-package-minimum-reported-time 0
       custom-file (make-temp-file "emacs-sink"))
 (eval-when-compile (require 'use-package))

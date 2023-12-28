@@ -45,19 +45,7 @@
   (("C-c n M-g" . consult-notes)
    ("C-c n M-s" . consult-notes-search-in-all-notes)))
 
-(use-package pdf-tools
-  :config
-  (pdf-loader-install))
-
-(use-package elfeed
-  :bind
-  ("C-x w" . elfeed))
-
 (use-package crdt)
-
-(use-package notmuch
-  :custom
-  (notmuch-search-oldest-first nil))
 
 ;;; navigation
 
@@ -219,8 +207,8 @@
   (package-vc-install "https://github.com/jdtsmith/org-modern-indent"))
 (use-package org-modern-indent
   :if (display-graphic-p)
-  :config
-  (add-hook 'org-mode-hook #'org-modern-indent-mode 90))
+  :hook
+  (org-mode . org-modern-indent-mode))
 
 (use-package hl-todo
   :config
@@ -228,16 +216,12 @@
   (add-hook 'flymake-diagnostic-functions #'hl-todo-flymake))
 
 (use-package spacious-padding
-  :init
+  :config
   (spacious-padding-mode))
 
 ;;; editing
 
 (use-package jinx
-  :custom
-  (global-jinx-modes t)
-  :init
-  (global-jinx-mode)
   :bind
   ("M-$" . jinx-correct))
 
@@ -278,7 +262,7 @@
         (append savehist-additional-variables '(trail-ring vertico-repeat-history))))
 
 (use-package buffer-env
-  :init
+  :config
   (add-hook 'hack-local-variables-hook #'buffer-env-update)
   (add-hook 'comint-mode-hook #'buffer-env-update))
 
