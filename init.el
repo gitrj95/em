@@ -186,7 +186,6 @@
   :config
   (setq circadian-themes '((:sunrise . modus-operandi)
                            (:sunset  . modus-vivendi)))
-  (add-hook 'circadian-after-load-theme-hook #'em/modus-themes-hl-todo-faces)
   (circadian-setup))
 
 (use-package ediff
