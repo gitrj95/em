@@ -45,6 +45,9 @@
   (("C-c n M-g" . consult-notes)
    ("C-c n M-s" . consult-notes-search-in-all-notes)))
 
+(use-package pdf-tools
+  :config (pdf-loader-install))
+
 (use-package crdt)
 
 ;;; navigation
@@ -163,7 +166,7 @@
   (xref-show-definitions-function #'consult-xref)
   :hook
   ((embark-collect-mode completion-list-mode) . consult-preview-at-point-mode)
-  :config
+  :init
   (advice-add #'register-preview :override #'consult-register-window)
   ;; NOTE: use `consult-completion-in-region' if vertico is enabled
   (setq completion-in-region-function
@@ -231,6 +234,7 @@
   :custom
   (eglot-sync-connect 0)
   (eglot-connect-timeout 10) ; NOTE: can just `C-g' out of it
+  (project-vc-extra-root-markers '(".project"))
   :config
   (setq eglot-stay-out-of '(flymake))
   (add-hook
