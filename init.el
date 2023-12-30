@@ -48,7 +48,15 @@
 (use-package pdf-tools
   :config (pdf-loader-install))
 
-(use-package crdt)
+(use-package crdt
+  :defer t)
+
+(use-package notmuch
+  :defer t)
+
+(use-package elfeed
+  :bind
+  ("C-c C-w" . elfeed))
 
 ;;; navigation
 
@@ -67,7 +75,7 @@
   (trail-mark-around-functions
    '(xref-find-definitions xref-find-references org-open-at-point))
   (trail-ring-max 100)
-  :init
+  :config
   (trail-mode)
   :bind
   ("C-M-=" . trail-mark)
@@ -189,6 +197,7 @@
   (circadian-setup))
 
 (use-package ediff
+  :defer t
   :custom
   (ediff-split-window-function 'split-window-horizontally)
   (ediff-window-setup-function 'ediff-setup-windows-plain))
