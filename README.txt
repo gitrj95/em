@@ -10,6 +10,8 @@ Table of Contents
 _________________
 
 1. Configure
+.. 1. Elisp
+.. 2. Automatic theme selection
 2. Install
 
 
@@ -28,8 +30,19 @@ The configuration aims to satisfy some criteria:
 1 Configure
 ===========
 
+1.1 Elisp
+~~~~~~~~~
+
   if you want to exercise your elisp-fu, just add whatever `.el' or
-  `.elc' files to `etc/'
+  `.elc' files to `etc/'.
+
+
+1.2 Automatic theme selection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Themes are automatically set on sunrise and sunset. Set
+  `calendar-latitude' and `calendar-longitude' in `early-init.el' for
+  accurate timings.
 
 
 2 Install
