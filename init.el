@@ -76,7 +76,7 @@
   (trail-mark-around-functions
    '(xref-find-definitions xref-find-references org-open-at-point))
   (trail-ring-max 100)
-  :config
+  :init
   (trail-mode)
   :bind
   ("C-M-=" . trail-mark)
