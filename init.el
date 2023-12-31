@@ -52,7 +52,8 @@
   :defer t)
 
 (use-package notmuch
-  :defer t)
+  :bind
+  ("C-c C-m" . notmuch))
 
 (use-package elfeed
   :bind
