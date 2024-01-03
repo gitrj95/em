@@ -165,6 +165,7 @@
   ("M-`" . consult-register-store)
   ("C-`" . consult-register-load)
   ("C-M-`" . consult-register)
+  ("s-`" . consult-bookmark)
   (:map minibuffer-local-map
         ("M-h" . consult-history))
   (:map isearch-mode-map
