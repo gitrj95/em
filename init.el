@@ -284,7 +284,7 @@
 (use-package eat
   ;; extant bug in `https://codeberg.org/akib/emacs-eat/issues/109'
   :bind
-  ("<f9>" . eat)
+  ("<f9>" . eshell)
   :hook
   (eshell-mode . eat-eshell-mode)
   (eshell-mode . eat-eshell-visual-command-mode))
