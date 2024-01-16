@@ -255,6 +255,7 @@
      (add-hook 'flymake-diagnostic-functions 'eglot-flymake-backend nil t)
      (flymake-mode +1)))
   (defun em/eglot-toggle ()
+    "Toggles `eglot'."
     (interactive)
     (call-interactively
      (if (eglot-managed-p)
@@ -283,8 +284,17 @@
 
 (use-package eat
   ;; extant bug in `https://codeberg.org/akib/emacs-eat/issues/109'
+  :config
+  (defun em/choose-term-interface (cmd)
+    "Chooses a terminal interface among `em-terminal-modes-alist'."
+    (interactive
+     (list
+      (let ((choice
+	      (completing-read "Choose terminal interface: " em-terminal-modes-alist)))
+	(cdr (assoc choice em-terminal-modes-alist)))))
+    (call-interactively cmd))
   :bind
-  ("<f9>" . eshell)
+  ("<f9>" . em/choose-term-interface)
   :hook
   (eshell-mode . eat-eshell-mode)
   (eshell-mode . eat-eshell-visual-command-mode))

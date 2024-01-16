@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-01-03 Wed 11:57 -->
+<!-- 2024-01-16 Tue 20:01 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>em: a minimalist Emacs configuration</title>
@@ -201,13 +201,14 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgf2748f8">1. Configure</a>
+<li><a href="#org53546ad">1. Configure</a>
 <ul>
-<li><a href="#org8f33e23">1.1. Elisp</a></li>
-<li><a href="#org3ea7682">1.2. Automatic theme selection</a></li>
+<li><a href="#org45df501">1.1. Elisp</a></li>
+<li><a href="#org0c19e00">1.2. Automatic theme selection</a></li>
+<li><a href="#org6435209">1.3. Terminal-like modes</a></li>
 </ul>
 </li>
-<li><a href="#org6c6a0b6">2. Install</a></li>
+<li><a href="#org99fa93b">2. Install</a></li>
 </ul>
 </div>
 </div>
@@ -238,12 +239,12 @@ something, <i>e.g.</i> there is one mode of completion via the
 minibuffer.</li>
 </ul>
 
-<div id="outline-container-orgf2748f8" class="outline-2">
-<h2 id="orgf2748f8"><span class="section-number-2">1.</span> Configure</h2>
+<div id="outline-container-org53546ad" class="outline-2">
+<h2 id="org53546ad"><span class="section-number-2">1.</span> Configure</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org8f33e23" class="outline-3">
-<h3 id="org8f33e23"><span class="section-number-3">1.1.</span> Elisp</h3>
+<div id="outline-container-org45df501" class="outline-3">
+<h3 id="org45df501"><span class="section-number-3">1.1.</span> Elisp</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 If you want to exercise your elisp-fu, just add whatever <code>.el</code> or
@@ -251,8 +252,8 @@ If you want to exercise your elisp-fu, just add whatever <code>.el</code> or
 </p>
 </div>
 </div>
-<div id="outline-container-org3ea7682" class="outline-3">
-<h3 id="org3ea7682"><span class="section-number-3">1.2.</span> Automatic theme selection</h3>
+<div id="outline-container-org0c19e00" class="outline-3">
+<h3 id="org0c19e00"><span class="section-number-3">1.2.</span> Automatic theme selection</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 Themes are automatically set on sunrise and sunset. Set
@@ -261,9 +262,18 @@ accurate timings.
 </p>
 </div>
 </div>
+<div id="outline-container-org6435209" class="outline-3">
+<h3 id="org6435209"><span class="section-number-3">1.3.</span> Terminal-like modes</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+<code>&lt;f9&gt;</code> selects among the candidates in <code>em-terminal-modes-alist</code>. You
+can specify a name and the invoked command in the alist.
+</p>
 </div>
-<div id="outline-container-org6c6a0b6" class="outline-2">
-<h2 id="org6c6a0b6"><span class="section-number-2">2.</span> Install</h2>
+</div>
+</div>
+<div id="outline-container-org99fa93b" class="outline-2">
+<h2 id="org99fa93b"><span class="section-number-2">2.</span> Install</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Inspect the <code>Makefile</code>. The implementation is trivial.
@@ -273,7 +283,7 @@ Inspect the <code>Makefile</code>. The implementation is trivial.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ramakrishnan Jayaraman</p>
-<p class="date">Created: 2024-01-03 Wed 11:57</p>
+<p class="date">Created: 2024-01-16 Tue 20:01</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

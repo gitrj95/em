@@ -80,7 +80,8 @@
 (setq em-notes-directory "~/notes"
       ;; e.g. chicago
       calendar-latitude 41.881832
-      calendar-longitude -87.623177)
+      calendar-longitude -87.623177
+      em-terminal-modes-alist '(("eshell" . eshell) ("eat" . eat)))
 
 (setq package-archives
       '(("gnu" . "https://elpa.gnu.org/packages/")
