@@ -124,6 +124,19 @@
 	("M-P" . vertico-repeat-previous)
         ("M-DEL" . vertico-directory-delete-word)))
 
+(use-package cape
+  :bind (("M-<tab>" . completion-at-point)
+         ("C-c c d" . cape-dabbrev)
+	 ("C-c c h" . cape-history)
+         ("C-c c f" . cape-file)
+         ("C-c c l" . cape-line)
+         ("C-c c w" . cape-dict)
+         ("C-c c :" . cape-emoji)
+         ("C-c c \\" . cape-tex))
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-tex))
+
 (use-package orderless
   :custom
   (completion-styles '(orderless basic))
@@ -138,8 +151,7 @@
   (prefix-help-command #'embark-prefix-help-command)
   :bind
   (("C-;" . embark-act)
-   ("C-M-;" . embark-act-all)
-   ("C-'" . embark-dwim)))
+   ("C-M-;" . embark-act-all)))
 
 (use-package consult
   :bind
