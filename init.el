@@ -52,12 +52,10 @@
   :defer t)
 
 (use-package notmuch
-  :bind
-  ("C-c C-m" . notmuch))
+  :defer t)
 
 (use-package elfeed
-  :bind
-  ("C-c C-w" . elfeed))
+  :defer t)
 
 ;;; navigation
 
@@ -77,7 +75,7 @@
    '(xref-find-definitions xref-find-references org-open-at-point))
   (trail-ring-max 100)
   :init
-  (trail-mode)
+  (trail-mode +1)
   :bind
   ("C-M-=" . trail-mark)
   ("C-M-'" . trail-list)
@@ -90,9 +88,7 @@
 
 (use-package avy
   :bind
-  ("M-g c" . avy-goto-char-timer)
-  (:map isearch-mode-map
-        ("M-g c" . avy-isearch)))
+  ("M-g c" . avy-goto-char-timer))
 
 (use-package ibuffer
   :bind
@@ -107,6 +103,20 @@
 
 (use-package consult-eglot
   :after (consult eglot))
+
+(use-package isearch-mb
+  :custom
+  (isearch-lazy-count t)
+  (search-ring-max 100)
+  (regexp-search-ring-max 100)
+  :init
+  (isearch-mb-mode +1)
+  (add-to-list 'isearch-mb--after-exit #'avy-isearch)
+  (define-key isearch-mb-minibuffer-map (kbd "M-g c") #'avy-isearch)
+  (add-to-list 'isearch-mb--after-exit #'consult-line)
+  (define-key isearch-mb-minibuffer-map (kbd "M-s l") #'consult-line)
+  (add-to-list 'isearch-mb--after-exit #'embark-act)
+  (define-key isearch-mb-minibuffer-map (kbd "C-;") #'embark-act))
 
 ;;; completion
 
@@ -144,7 +154,7 @@
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package marginalia
-  :config (marginalia-mode))
+  :config (marginalia-mode +1))
 
 (use-package embark
   :custom
@@ -181,8 +191,6 @@
   ("s-`" . consult-bookmark)
   (:map minibuffer-local-map
         ("M-h" . consult-history))
-  (:map isearch-mode-map
-        ("M-g l" . consult-line))
   :custom
   (register-preview-function #'consult-register-format)
   (xref-show-xrefs-function #'consult-xref)
@@ -238,12 +246,12 @@
 
 (use-package hl-todo
   :config
-  (global-hl-todo-mode)
+  (global-hl-todo-mode +1)
   (add-hook 'flymake-diagnostic-functions #'hl-todo-flymake))
 
 (use-package spacious-padding
   :config
-  (spacious-padding-mode))
+  (spacious-padding-mode +1))
 
 ;;; editing
 
@@ -285,7 +293,7 @@
 
 (use-package savehist
   :init
-  (savehist-mode)
+  (savehist-mode +1)
   (setq savehist-additional-variables
         (append savehist-additional-variables '(trail-ring vertico-repeat-history))))
 
@@ -328,7 +336,7 @@
   :bind ("C-x g" . magit))
 
 (use-package repeat
-  :config (repeat-mode))
+  :config (repeat-mode +1))
 
 (use-package proced
   :bind ("C-x P" . proced)
