@@ -159,6 +159,7 @@
 (use-package embark
   :custom
   (prefix-help-command #'embark-prefix-help-command)
+  (embark-prompter 'embark-completing-read-prompter)
   :bind
   (("C-;" . embark-act)
    ("C-M-;" . embark-act-all)))
