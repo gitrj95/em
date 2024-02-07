@@ -188,7 +188,7 @@
   ("M-`" . consult-register-store)
   ("C-`" . consult-register-load)
   ("C-M-`" . consult-register)
-  ("s-`" . consult-bookmark)
+  ("C-s-`" . consult-bookmark)
   (:map minibuffer-local-map
         ("M-h" . consult-history))
   :custom
@@ -321,9 +321,7 @@
 
 (use-package ansi-color
   :config
-  (defun em/colorize-compilation-buffer ()
-    (ansi-color-apply-on-region compilation-filter-start (point)))
-  (add-hook 'compilation-filter-hook #'em/colorize-compilation-buffer))
+  (add-hook 'compilation-filter-hook #'ansi-color-compilation-filter))
 
 (use-package vc
   :bind
@@ -356,6 +354,10 @@
   :bind
   (:map flymake-mode-map
 	("M-g d" . consult-flymake)))
+
+(use-package bookmark-view
+  :bind
+  ("s-`" . bookmark-view-save))
 
 ;;; load etc
 
