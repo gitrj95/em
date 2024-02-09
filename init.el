@@ -159,7 +159,10 @@
 (use-package embark
   :custom
   (prefix-help-command #'embark-prefix-help-command)
-  (embark-prompter 'embark-completing-read-prompter)
+  (embark-prompter #'embark-completing-read-prompter)
+  (embark-indicators '(embark-minimal-indicator
+		       embark-highlight-indicator
+		       embark-isearch-highlight-indicator))
   :bind
   (("C-;" . embark-act)
    ("C-M-;" . embark-act-all)))
@@ -206,7 +209,30 @@
           (apply (if vertico-mode
                      #'consult-completion-in-region
                    #'completion--in-region)
-		 args))))
+		 args)))
+  :config
+  ;; NOTE: configure new bookmark-view source
+  (add-to-list 'consult-buffer-sources
+               (list :name     "View"
+                     :narrow   ?v
+                     :category 'bookmark
+                     :face     'font-lock-keyword-face
+                     :history  'bookmark-view-history
+                     :action   #'consult--bookmark-action
+                     :items    #'bookmark-view-names)
+               'append)
+
+  ;; NOTE: modify bookmark source, such that views are hidden
+  (setq consult--source-bookmark
+	(plist-put
+	 consult--source-bookmark :items
+	 (lambda ()
+           (bookmark-maybe-load-default-file)
+           (mapcar #'car
+                   (seq-remove (lambda (x)
+				 (eq #'bookmark-view-handler
+                                     (alist-get 'handler (cdr x))))
+                               bookmark-alist))))))
 
 (use-package embark-consult
   :hook
