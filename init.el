@@ -111,6 +111,8 @@
   (regexp-search-ring-max 100)
   :init
   (isearch-mb-mode +1)
+  (add-to-list 'isearch-mb--after-exit #'isearch-occur)
+  (define-key isearch-mb-minibuffer-map (kbd "M-g c") #'avy-isearch)
   (add-to-list 'isearch-mb--after-exit #'avy-isearch)
   (define-key isearch-mb-minibuffer-map (kbd "M-g c") #'avy-isearch)
   (add-to-list 'isearch-mb--after-exit #'consult-line)
