@@ -59,6 +59,10 @@
 
 ;;; navigation
 
+(setq isearch-lazy-count t
+      search-ring-max 100
+      regexp-search-ring-max 100)
+
 (use-package windmove
   :bind
   (("C-M-<up>" . windmove-up)
@@ -88,7 +92,9 @@
 
 (use-package avy
   :bind
-  ("M-g c" . avy-goto-char-timer))
+  ("M-g c" . avy-goto-char-timer)
+  (:map isearch-mode-map
+        ("M-g c" . avy-isearch)))
 
 (use-package ibuffer
   :bind
@@ -103,22 +109,6 @@
 
 (use-package consult-eglot
   :after (consult eglot))
-
-(use-package isearch-mb
-  :custom
-  (isearch-lazy-count t)
-  (search-ring-max 100)
-  (regexp-search-ring-max 100)
-  :init
-  (isearch-mb-mode +1)
-  (add-to-list 'isearch-mb--after-exit #'isearch-occur)
-  (define-key isearch-mb-minibuffer-map (kbd "M-g c") #'avy-isearch)
-  (add-to-list 'isearch-mb--after-exit #'avy-isearch)
-  (define-key isearch-mb-minibuffer-map (kbd "M-g c") #'avy-isearch)
-  (add-to-list 'isearch-mb--after-exit #'consult-line)
-  (define-key isearch-mb-minibuffer-map (kbd "M-s l") #'consult-line)
-  (add-to-list 'isearch-mb--after-exit #'embark-act)
-  (define-key isearch-mb-minibuffer-map (kbd "C-;") #'embark-act))
 
 ;;; completion
 
@@ -197,6 +187,8 @@
   ("C-s-`" . consult-bookmark)
   (:map minibuffer-local-map
         ("M-h" . consult-history))
+  (:map isearch-mode-map
+	("M-g l" . consult-line))
   :custom
   (register-preview-function #'consult-register-format)
   (xref-show-xrefs-function #'consult-xref)
@@ -223,7 +215,6 @@
                      :action   #'consult--bookmark-action
                      :items    #'bookmark-view-names)
                'append)
-
   ;; NOTE: modify bookmark source, such that views are hidden
   (setq consult--source-bookmark
 	(plist-put
