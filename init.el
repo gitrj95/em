@@ -10,7 +10,7 @@
 (use-package org
   :custom
   (org-agenda-files `(,em-notes-directory))
-  (org-startup-indented +1)
+  (org-startup-indented 1)
   :config
   (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
   :bind
@@ -40,7 +40,7 @@
   :custom
   (consult-notes-denote-dir nil)
   :config
-  (consult-notes-denote-mode +1)
+  (consult-notes-denote-mode 1)
   :bind
   (("C-c n M-g" . consult-notes)
    ("C-c n M-s" . consult-notes-search-in-all-notes)))
@@ -79,7 +79,7 @@
    '(xref-find-definitions xref-find-references org-open-at-point))
   (trail-ring-max 100)
   :init
-  (trail-mode +1)
+  (trail-mode 1)
   :bind
   ("C-M-=" . trail-mark)
   ("C-M-'" . trail-list)
@@ -146,7 +146,7 @@
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package marginalia
-  :config (marginalia-mode +1))
+  :config (marginalia-mode 1))
 
 (use-package embark
   :custom
@@ -266,12 +266,12 @@
 
 (use-package hl-todo
   :config
-  (global-hl-todo-mode +1)
+  (global-hl-todo-mode 1)
   (add-hook 'flymake-diagnostic-functions #'hl-todo-flymake))
 
 (use-package spacious-padding
   :config
-  (spacious-padding-mode +1))
+  (spacious-padding-mode 1))
 
 ;;; editing
 
@@ -293,7 +293,7 @@
    (lambda ()
      ;; NOTE: don't clobber diagnostics backends
      (add-hook 'flymake-diagnostic-functions 'eglot-flymake-backend nil t)
-     (flymake-mode +1)))
+     (flymake-mode 1)))
   (defun em/eglot-toggle ()
     "Toggles `eglot'."
     (interactive)
@@ -313,7 +313,7 @@
 
 (use-package savehist
   :init
-  (savehist-mode +1)
+  (savehist-mode 1)
   (setq savehist-additional-variables
         (append savehist-additional-variables '(trail-ring vertico-repeat-history))))
 
@@ -354,7 +354,7 @@
   :bind ("C-x g" . magit))
 
 (use-package repeat
-  :config (repeat-mode +1))
+  :config (repeat-mode 1))
 
 (use-package proced
   :bind ("C-x P" . proced)

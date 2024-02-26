@@ -61,9 +61,9 @@
 (menu-bar-mode -1)
 (setq display-time-default-load-average nil
       display-time-day-and-date t)
-(display-time-mode +1)
+(display-time-mode 1)
 (scroll-bar-mode -1)
-(pixel-scroll-precision-mode +1)
+(pixel-scroll-precision-mode 1)
 
 (setq-default
  mode-line-format
