@@ -51,12 +51,6 @@
 (use-package crdt
   :defer t)
 
-(use-package notmuch
-  :defer t)
-
-(use-package elfeed
-  :defer t)
-
 ;;; navigation
 
 (setq isearch-lazy-count t
