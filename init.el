@@ -165,6 +165,7 @@
   ("M-g m" . consult-mark)
   ("M-g M" . consult-global-mark)
   ("M-g f" . consult-find)
+  ("M-g F" . consult-fd)
   ("M-s i" . consult-info)
   ("M-s m" . consult-man)
   ("M-s g" . consult-grep)
