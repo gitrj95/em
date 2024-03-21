@@ -72,10 +72,9 @@
   :init
   (trail-mode 1)
   :bind
-  ("C-M-=" . trail-mark)
-  ("C-M-'" . trail-list)
-  ("C-M-[" . trail-find-and-jump-previous)
-  ("C-M-]" . trail-find-and-jump-next))
+  ("s-'" . trail-mark)
+  ("s-[" . trail-find-and-jump-previous)
+  ("s-]" . trail-find-and-jump-next))
 
 (use-package vundo
   :demand t
@@ -149,7 +148,7 @@
 		       embark-isearch-highlight-indicator))
   :bind
   (("C-;" . embark-act)
-   ("C-M-;" . embark-act-all)))
+   ("C-s-;" . embark-act-all)))
 
 (use-package consult
   :bind
@@ -174,10 +173,9 @@
   ("C-x 4 b" . consult-buffer-other-window)
   ("C-c k" . consult-keep-lines)
   ("C-c f" . consult-focus-lines)
-  ("M-`" . consult-register-store)
-  ("C-`" . consult-register-load)
-  ("C-M-`" . consult-register)
-  ("C-s-`" . consult-bookmark)
+  ("C-`" . consult-register-store)
+  ("C-s-`" . consult-register-load)
+  ("M-s-`" . consult-bookmark)
   (:map minibuffer-local-map
         ("M-h" . consult-history))
   (:map isearch-mode-map
@@ -356,7 +354,7 @@
 
 (use-package bookmark-view
   :bind
-  ("s-`" . bookmark-view-save))
+  ("M-`" . bookmark-view-save))
 
 ;;; load etc
 
