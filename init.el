@@ -114,8 +114,7 @@
   (:map vertico-map
 	("M-N" . vertico-repeat-next)
 	("M-P" . vertico-repeat-previous)
-        ("M-DEL" . vertico-directory-delete-word)
-	("M-<backspace>" . vertico-directory-delete-word)))
+        ("M-DEL" . vertico-directory-delete-word)))
 
 (use-package cape
   :bind (("M-<tab>" . completion-at-point)
