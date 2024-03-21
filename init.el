@@ -45,9 +45,6 @@
   (("C-c n M-g" . consult-notes)
    ("C-c n M-s" . consult-notes-search-in-all-notes)))
 
-(use-package pdf-tools
-  :config (pdf-loader-install))
-
 (use-package crdt
   :defer t)
 
@@ -104,7 +101,7 @@
 (use-package consult-eglot
   :after (consult eglot))
 
-;;; completion
+;;; completion & commands
 
 (use-package vertico
   :custom
@@ -118,7 +115,8 @@
   (:map vertico-map
 	("M-N" . vertico-repeat-next)
 	("M-P" . vertico-repeat-previous)
-        ("M-DEL" . vertico-directory-delete-word)))
+        ("M-DEL" . vertico-directory-delete-word)
+	("M-<backspace>" . vertico-directory-delete-word)))
 
 (use-package cape
   :bind (("M-<tab>" . completion-at-point)
@@ -226,6 +224,11 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
+(use-package kkp
+  :config
+  (global-kkp-mode 1)
+  (define-key key-translation-map (kbd "M-<backspace>") (kbd "M-DEL"))) ; FIXME: hack
+
 ;;; gui
 
 (use-package circadian
@@ -239,25 +242,6 @@
   :custom
   (ediff-split-window-function 'split-window-horizontally)
   (ediff-window-setup-function 'ediff-setup-windows-plain))
-
-(use-package org-modern
-  :if (display-graphic-p)
-  :custom
-  (org-modern-hide-stars nil)
-  (org-modern-table nil)
-  (org-modern-list
-   '((?* . "•")
-     (?+ . "‣")))
-  :hook
-  (org-mode . org-modern-mode)
-  (org-agenda-finalize . org-modern-agenda))
-
-(unless (package-installed-p 'org-modern-indent)
-  (package-vc-install "https://github.com/jdtsmith/org-modern-indent"))
-(use-package org-modern-indent
-  :if (display-graphic-p)
-  :hook
-  (org-mode . org-modern-indent-mode))
 
 (use-package hl-todo
   :config

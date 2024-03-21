@@ -3,27 +3,26 @@
 
 ;;; smoothness
 
-(unless (daemonp)
-  (let ((old-value (default-toplevel-value 'file-name-handler-alist)))
-    (setq file-name-handler-alist nil)
-    (set-default-toplevel-value 'file-name-handler-alist file-name-handler-alist)
-    (put 'file-name-handler-alist 'initial-value old-value)
-    (add-hook 'emacs-startup-hook :depth 101
-      (defun em/reset-file-handler-alist ()
-        (setq file-name-handler-alist
-              (delete-dups (append file-name-handler-alist old-value))))))
-  (unless noninteractive
-    (setq frame-inhibit-implied-resize t
-	  inhibit-startup-screen t
-          inhibit-startup-echo-area-message user-login-name)
-    (advice-add #'display-startup-echo-area-message :override #'ignore)
-    (advice-add #'display-startup-screen :override #'ignore)
-    (setq initial-major-mode 'fundamental-mode
-          initial-scratch-message nil))
-  (setq native-comp-jit-compilation t
-	native-compile-prune-cache t
-	native-comp-async-report-warnings-errors nil
-	read-process-output-max (* 4 1024 1024)))
+(let ((old-value (default-toplevel-value 'file-name-handler-alist)))
+  (setq file-name-handler-alist nil)
+  (set-default-toplevel-value 'file-name-handler-alist file-name-handler-alist)
+  (put 'file-name-handler-alist 'initial-value old-value)
+  (add-hook 'emacs-startup-hook :depth 101
+	    (defun em/reset-file-handler-alist ()
+              (setq file-name-handler-alist
+		    (delete-dups (append file-name-handler-alist old-value))))))
+(unless noninteractive
+  (setq frame-inhibit-implied-resize t
+	inhibit-startup-screen t
+        inhibit-startup-echo-area-message user-login-name)
+  (advice-add #'display-startup-echo-area-message :override #'ignore)
+  (advice-add #'display-startup-screen :override #'ignore)
+  (setq initial-major-mode 'fundamental-mode
+        initial-scratch-message nil))
+(setq native-comp-jit-compilation t
+      native-compile-prune-cache t
+      native-comp-async-report-warnings-errors nil
+      read-process-output-max (* 4 1024 1024))
 
 (defvar em/gc-cons-threshold 100000000)
 (setq gc-cons-threshold most-positive-fixnum
@@ -51,19 +50,14 @@
 
 (set-face-attribute 'default nil :family "Iosevka Comfy Fixed")
 (set-face-attribute 'default nil :height 160)
-(setq line-spacing .1
-      scroll-preserve-screen-position t
+(setq scroll-preserve-screen-position t
       scroll-conservatively 1
-      scroll-margin 0
-      next-screen-context-lines 0
-      cursor-type 'box)
+      next-screen-context-lines 0)
 
 (menu-bar-mode -1)
 (setq display-time-default-load-average nil
       display-time-day-and-date t)
 (display-time-mode 1)
-(scroll-bar-mode -1)
-(pixel-scroll-precision-mode 1)
 
 (setq-default
  mode-line-format
