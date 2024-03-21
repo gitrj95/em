@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-02-09 Fri 13:58 -->
+<!-- 2024-03-20 Wed 23:48 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>em: a minimalist Emacs configuration</title>
@@ -201,14 +201,14 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org3b90f94">1. Configure</a>
+<li><a href="#org569b57d">1. Configure</a>
 <ul>
-<li><a href="#org5ebe4a6">1.1. Elisp</a></li>
-<li><a href="#orgb3149d9">1.2. Automatic theme selection</a></li>
-<li><a href="#org5be750d">1.3. Terminal-like modes</a></li>
+<li><a href="#org1e8baac">1.1. Elisp</a></li>
+<li><a href="#org8d0e20c">1.2. Automatic theme selection</a></li>
+<li><a href="#orgff1b718">1.3. Terminal-like modes</a></li>
 </ul>
 </li>
-<li><a href="#orge804766">2. Install</a></li>
+<li><a href="#org710df42">2. Install</a></li>
 </ul>
 </div>
 </div>
@@ -221,16 +221,12 @@ feature-rich.
 The configuration aims to satisfy some criteria:
 </p>
 <ul class="org-ul">
-<li>Modern: should have rich aesthetic appeal, especially in GUI Emacs.</li>
+<li>Modern: should have a rich UI using current conventions.</li>
 <li>Fast: after installation, boots should be easily under 1 second, and
 the chosen packages are implemented with speed in mind.
 <ul class="org-ul">
-<li>On my native-compiled Emacs installation inside a 4GB Debian
-VMware instance on my MBP:
-<ul class="org-ul">
-<li>GUI emacs boots in ~.2 seconds.</li>
-<li>Terminal emacs boots in ~.1 seconds.</li>
-</ul></li>
+<li>On my non-native-compiled Emacs installation on my M1 MBP,
+terminal emacs boots in .2 seconds.</li>
 </ul></li>
 <li>Close-to-core: stick as close to core Emacs as possible.</li>
 <li>Unobtrusive: keep visual noise away.</li>
@@ -239,12 +235,12 @@ something, <i>e.g.</i> there is one mode of completion via the
 minibuffer.</li>
 </ul>
 
-<div id="outline-container-org3b90f94" class="outline-2">
-<h2 id="org3b90f94"><span class="section-number-2">1.</span> Configure</h2>
+<div id="outline-container-org569b57d" class="outline-2">
+<h2 id="org569b57d"><span class="section-number-2">1.</span> Configure</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org5ebe4a6" class="outline-3">
-<h3 id="org5ebe4a6"><span class="section-number-3">1.1.</span> Elisp</h3>
+<div id="outline-container-org1e8baac" class="outline-3">
+<h3 id="org1e8baac"><span class="section-number-3">1.1.</span> Elisp</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 If you want to exercise your elisp-fu, just add whatever <code>.el</code> or
@@ -252,8 +248,8 @@ If you want to exercise your elisp-fu, just add whatever <code>.el</code> or
 </p>
 </div>
 </div>
-<div id="outline-container-orgb3149d9" class="outline-3">
-<h3 id="orgb3149d9"><span class="section-number-3">1.2.</span> Automatic theme selection</h3>
+<div id="outline-container-org8d0e20c" class="outline-3">
+<h3 id="org8d0e20c"><span class="section-number-3">1.2.</span> Automatic theme selection</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 Themes are automatically set on sunrise and sunset. Set
@@ -262,8 +258,8 @@ accurate timings.
 </p>
 </div>
 </div>
-<div id="outline-container-org5be750d" class="outline-3">
-<h3 id="org5be750d"><span class="section-number-3">1.3.</span> Terminal-like modes</h3>
+<div id="outline-container-orgff1b718" class="outline-3">
+<h3 id="orgff1b718"><span class="section-number-3">1.3.</span> Terminal-like modes</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 <code>&lt;f9&gt;</code> selects among the candidates in <code>em-terminal-modes-alist</code>. You
@@ -272,8 +268,8 @@ can specify a name and the invoked command in the alist.
 </div>
 </div>
 </div>
-<div id="outline-container-orge804766" class="outline-2">
-<h2 id="orge804766"><span class="section-number-2">2.</span> Install</h2>
+<div id="outline-container-org710df42" class="outline-2">
+<h2 id="org710df42"><span class="section-number-2">2.</span> Install</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Move the files to <code>.emacs.d</code>. I use GNU Stow.
@@ -283,7 +279,7 @@ Move the files to <code>.emacs.d</code>. I use GNU Stow.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ramakrishnan Jayaraman</p>
-<p class="date">Created: 2024-02-09 Fri 13:58</p>
+<p class="date">Created: 2024-03-20 Wed 23:48</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
