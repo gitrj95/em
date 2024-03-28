@@ -48,8 +48,6 @@
 (setq modus-themes-to-toggle '(modus-operandi modus-vivendi))
 (load-theme 'modus-operandi)
 
-(set-face-attribute 'default nil :family "Iosevka Comfy Fixed")
-(set-face-attribute 'default nil :height 160)
 (setq scroll-preserve-screen-position t
       scroll-conservatively 1
       next-screen-context-lines 0)

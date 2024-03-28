@@ -17,6 +17,9 @@
   (("C-c l" . org-store-link)
    ("C-c a" . org-agenda)))
 
+(use-package org-present
+  :defer t)
+
 (use-package denote
   :custom
   (denote-directory (expand-file-name em-notes-directory))
@@ -41,6 +44,8 @@
   (consult-notes-denote-dir nil)
   :config
   (consult-notes-denote-mode 1)
+  (setq consult-notes-file-dir-sources
+	`(("All notes" ?a ,em-notes-directory)))
   :bind
   (("C-c n M-g" . consult-notes)
    ("C-c n M-s" . consult-notes-search-in-all-notes)))
@@ -167,7 +172,7 @@
   ("M-s g" . consult-grep)
   ("M-s G" . consult-git-grep)
   ("M-s r" . consult-ripgrep)
-  ("M-X" . consult-mode-command)
+  ("M-g h" . consult-mode-command)
   ("C-x b" . consult-buffer)
   ("C-x 4 b" . consult-buffer-other-window)
   ("C-c k" . consult-keep-lines)
