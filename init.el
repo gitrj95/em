@@ -290,6 +290,13 @@
 	("<f8>" . compile)
 	("M-g s" . consult-eglot-symbols)))
 
+(unless (package-installed-p 'eglot-booster)
+  (package-vc-install "https://github.com/jdtsmith/eglot-booster.git"))
+(use-package eglot-booster
+  :if (executable-find "emacs-lsp-booster")
+  :after eglot
+  :config (eglot-booster-mode))
+
 ;;; env
 
 (use-package savehist
