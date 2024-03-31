@@ -1,7 +1,7 @@
 ;;;; em init
 ;;;; rj
 
-;;; comms
+;;; Comms
 
 (let ((expanded-f (expand-file-name em-notes-directory)))
   (unless (file-directory-p expanded-f)
@@ -53,7 +53,7 @@
 (use-package crdt
   :defer t)
 
-;;; navigation
+;;; Navigation
 
 (setq isearch-lazy-count t
       search-ring-max 100
@@ -105,7 +105,7 @@
 (use-package consult-eglot
   :after (consult eglot))
 
-;;; completion & commands
+;;; Completion & Commands
 
 (use-package vertico
   :custom
@@ -192,7 +192,7 @@
   ((embark-collect-mode completion-list-mode) . consult-preview-at-point-mode)
   :init
   (advice-add #'register-preview :override #'consult-register-window)
-  ;; NOTE: use `consult-completion-in-region' if vertico is enabled
+  ;; Use `consult-completion-in-region' if vertico is enabled
   (setq completion-in-region-function
 	(lambda (&rest args)
           (apply (if vertico-mode
@@ -200,7 +200,7 @@
                    #'completion--in-region)
 		 args)))
   :config
-  ;; NOTE: configure new bookmark-view source
+  ;; Configure new bookmark-view source
   (add-to-list 'consult-buffer-sources
                (list :name     "View"
                      :narrow   ?v
@@ -210,7 +210,7 @@
                      :action   #'consult--bookmark-action
                      :items    #'bookmark-view-names)
                'append)
-  ;; NOTE: modify bookmark source, such that views are hidden
+  ;; Modify bookmark source, such that views are hidden
   (setq consult--source-bookmark
 	(plist-put
 	 consult--source-bookmark :items
@@ -231,7 +231,7 @@
   (global-kkp-mode 1)
   (define-key key-translation-map (kbd "M-<backspace>") (kbd "M-DEL"))) ; FIXME: hack
 
-;;; gui
+;;; GUI
 
 (use-package circadian
   :config
@@ -254,7 +254,7 @@
   :config
   (spacious-padding-mode 1))
 
-;;; editing
+;;; Editing
 
 (use-package jinx
   :bind
@@ -297,7 +297,7 @@
   :after eglot
   :config (eglot-booster-mode))
 
-;;; env
+;;; Env
 
 (use-package savehist
   :init
@@ -311,7 +311,7 @@
   (add-hook 'comint-mode-hook #'buffer-env-update))
 
 (use-package eat
-  ;; extant bug in `https://codeberg.org/akib/emacs-eat/issues/109'
+  ;; NOTE: extant bug in `https://codeberg.org/akib/emacs-eat/issues/109'
   :config
   (defun em/choose-term-interface (cmd)
     "Chooses a terminal interface among `em-terminal-modes-alist'."
@@ -367,7 +367,7 @@
   :bind
   ("M-`" . bookmark-view-save))
 
-;;; load etc
+;;; Load etc
 
 (setq em-etc-directory
       (file-truename (concat user-emacs-directory "etc/")))
