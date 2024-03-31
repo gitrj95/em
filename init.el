@@ -115,10 +115,10 @@
   (add-hook 'minibuffer-setup-hook #'vertico-repeat-save)
   (vertico-mode)
   :bind
-  ("M-R" . vertico-repeat)
+  ("M-S-r" . vertico-repeat)
   (:map vertico-map
-	("M-N" . vertico-repeat-next)
-	("M-P" . vertico-repeat-previous)
+	("M-S-n" . vertico-repeat-next)
+	("M-S-p" . vertico-repeat-previous)
         ("M-DEL" . vertico-directory-delete-word)))
 
 (use-package cape
