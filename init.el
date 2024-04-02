@@ -293,9 +293,15 @@
 (unless (package-installed-p 'eglot-booster)
   (package-vc-install "https://github.com/jdtsmith/eglot-booster.git"))
 (use-package eglot-booster
-  :if (executable-find "emacs-lsp-booster")
-  :after eglot
-  :config (eglot-booster-mode))
+  :config
+  (add-hook
+   'eglot-managed-mode-hook
+   (lambda ()
+     ;; NOTE: boost only if binary exists
+     (if (eglot-managed-p)
+	 (when (executable-find "emacs-lsp-booster")
+	   (eglot-booster-mode 1))
+       (eglot-booster-mode -1)))))
 
 ;;; Env
 
