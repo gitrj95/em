@@ -1,7 +1,7 @@
-;;;; em early init
+;;;; Em early init
 ;;;; rj
 
-;;; smoothness
+;;; Smoothness
 
 (let ((old-value (default-toplevel-value 'file-name-handler-alist)))
   (setq file-name-handler-alist nil)
@@ -42,7 +42,7 @@
 (add-hook 'minibuffer-setup-hook #'em/defer-garbage-collection)
 (add-hook 'minibuffer-exit-hook #'em/restore-garbage-collection)
 
-;;; gui
+;;; GUI
 
 (require-theme 'modus-themes)
 (setq modus-themes-to-toggle '(modus-operandi modus-vivendi))
@@ -68,10 +68,10 @@
    mode-line-frame-identification mode-line-buffer-identification " " mode-line-modes mode-line-misc-info
    mode-line-end-spaces))
 
-;;; config
+;;; Config
 
 (setq em-notes-directory "~/notes"
-      ;; e.g. chicago
+      ;; E.g. Chicago
       calendar-latitude 41.881832
       calendar-longitude -87.623177
       em-terminal-modes-alist '(("eshell" . eshell) ("eat" . eat)))
