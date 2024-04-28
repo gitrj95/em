@@ -1,4 +1,4 @@
-;;;; em init
+;;;; Em init
 ;;;; rj
 
 ;;; Comms
@@ -229,7 +229,8 @@
 (use-package kkp
   :config
   (global-kkp-mode 1)
-  (define-key key-translation-map (kbd "M-<backspace>") (kbd "M-DEL"))) ; FIXME: hack
+  (define-key key-translation-map (kbd "M-<backspace>") (kbd "M-DEL")) ; FIXME: hack
+  (define-key key-translation-map (kbd "M-<return>") (kbd "M-RET")))   ; FIXME: hack
 
 ;;; GUI
 
