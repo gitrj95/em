@@ -291,6 +291,12 @@
 	("<f8>" . compile)
 	("M-g s" . consult-eglot-symbols)))
 
+(use-package dape
+  :custom
+  (dape-buffer-window-arrangement 'gud))
+
+(use-package rmsbolt)
+
 (unless (package-installed-p 'eglot-booster)
   (package-vc-install "https://github.com/jdtsmith/eglot-booster.git"))
 (use-package eglot-booster
@@ -325,7 +331,7 @@
     (interactive
      (list
       (let ((choice
-	      (completing-read "Choose terminal interface: " em-terminal-modes-alist)))
+	     (completing-read "Choose terminal interface: " em-terminal-modes-alist)))
 	(cdr (assoc choice em-terminal-modes-alist)))))
     (call-interactively cmd))
   :bind
