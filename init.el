@@ -102,9 +102,6 @@
         ("C-x C-d" . consult-dir)
         ("C-x C-j" . consult-dir-jump-file)))
 
-(use-package consult-eglot
-  :after (consult eglot))
-
 ;;; Completion & Commands
 
 (use-package vertico
@@ -231,6 +228,9 @@
   (global-kkp-mode 1)
   (define-key key-translation-map (kbd "M-<backspace>") (kbd "M-DEL")) ; FIXME: hack
   (define-key key-translation-map (kbd "M-<return>") (kbd "M-RET")))   ; FIXME: hack
+
+(use-package consult-eglot
+  :after (consult eglot))
 
 ;;; GUI
 
