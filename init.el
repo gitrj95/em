@@ -295,8 +295,6 @@
   :custom
   (dape-buffer-window-arrangement 'gud))
 
-(use-package rmsbolt)
-
 (unless (package-installed-p 'eglot-booster)
   (package-vc-install "https://github.com/jdtsmith/eglot-booster.git"))
 (use-package eglot-booster
