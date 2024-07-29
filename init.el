@@ -291,10 +291,6 @@
 	("<f8>" . compile)
 	("M-g s" . consult-eglot-symbols)))
 
-(use-package dape
-  :custom
-  (dape-buffer-window-arrangement 'gud))
-
 (unless (package-installed-p 'eglot-booster)
   (package-vc-install "https://github.com/jdtsmith/eglot-booster.git"))
 (use-package eglot-booster
