@@ -288,7 +288,6 @@
   (:map eglot-mode-map
 	("<f6>" . eglot-format)
 	("<f7>" . eglot-rename)
-	("<f8>" . compile)
 	("M-g s" . consult-eglot-symbols)))
 
 (unless (package-installed-p 'eglot-booster)
