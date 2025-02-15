@@ -25,7 +25,8 @@
   (denote-directory (expand-file-name em-notes-directory))
   (denote-infer-keywords t)
   (denote-sort-keywords t)
-  (dired-mode . denote-dired-mode)
+  :init
+  (add-hook 'dired-mode-hook #'denote-dired-mode)
   :bind
   (("C-c n n" . denote)
    ("C-c n l" . denote-link)
@@ -39,23 +40,11 @@
    ("C-c n k" . denote-keywords-remove)))
 
 (use-package consult-denote
-  :after denote
   :init
-  (consult-denote-mode)
+  (consult-denote-mode 1)
   :bind
-  (("C-c n M-g" . consult-denote-find-command)
-   ("C-c n M-s" . consult-denote-grep-command)))
-
-(use-package consult-notes
-  :custom
-  (consult-notes-denote-dir nil)
-  :config
-  (consult-notes-denote-mode 1)
-  (setq consult-notes-file-dir-sources
-	`(("All notes" ?a ,em-notes-directory)))
-  :bind
-  (("C-c n M-g" . consult-notes)
-   ("C-c n M-s" . consult-notes-search-in-all-notes)))
+  (("C-c n M-g" . consult-denote-find)
+   ("C-c n M-s" . consult-denote-grep)))
 
 ;;; Navigation
 
@@ -129,8 +118,9 @@
          ("C-c c :" . cape-emoji)
          ("C-c c \\" . cape-tex))
   :init
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-tex))
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-tex)
+  (add-hook 'completion-at-point-functions #'cape-file))
 
 (use-package orderless
   :custom
@@ -222,15 +212,6 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
-(use-package kkp
-  :config
-  (global-kkp-mode 1)
-  (define-key key-translation-map (kbd "M-<backspace>") (kbd "M-DEL")) ; FIXME: hack
-  (define-key key-translation-map (kbd "M-<return>") (kbd "M-RET")))   ; FIXME: hack
-
-(use-package consult-eglot
-  :after (consult eglot))
-
 ;;; GUI
 
 (use-package circadian
@@ -255,10 +236,6 @@
   (spacious-padding-mode 1))
 
 ;;; Editing
-
-(use-package jinx
-  :bind
-  ("M-$" . jinx-correct))
 
 (use-package wgrep)
 
