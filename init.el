@@ -75,6 +75,7 @@
 (use-package vundo
   :demand t
   :bind ("C-x u" . vundo))
+
 (use-package avy
   :bind
   ("M-g c" . avy-goto-char-timer)
