@@ -25,7 +25,6 @@
   (denote-directory (expand-file-name em-notes-directory))
   (denote-infer-keywords t)
   (denote-sort-keywords t)
-  :hook
   (dired-mode . denote-dired-mode)
   :bind
   (("C-c n n" . denote)
@@ -39,6 +38,14 @@
    ("C-c n a" . denote-keywords-add)
    ("C-c n k" . denote-keywords-remove)))
 
+(use-package consult-denote
+  :after denote
+  :init
+  (consult-denote-mode)
+  :bind
+  (("C-c n M-g" . consult-denote-find-command)
+   ("C-c n M-s" . consult-denote-grep-command)))
+
 (use-package consult-notes
   :custom
   (consult-notes-denote-dir nil)
@@ -49,9 +56,6 @@
   :bind
   (("C-c n M-g" . consult-notes)
    ("C-c n M-s" . consult-notes-search-in-all-notes)))
-
-(use-package crdt
-  :defer t)
 
 ;;; Navigation
 
@@ -77,14 +81,11 @@
   :init
   (trail-mode 1)
   :bind
-  ("s-'" . trail-mark)
-  ("s-[" . trail-find-and-jump-previous)
-  ("s-]" . trail-find-and-jump-next))
+  ("s-'" . trail-mark))
 
 (use-package vundo
   :demand t
   :bind ("C-x u" . vundo))
-
 (use-package avy
   :bind
   ("M-g c" . avy-goto-char-timer)
@@ -163,12 +164,10 @@
   ("M-g m" . consult-mark)
   ("M-g M" . consult-global-mark)
   ("M-g f" . consult-find)
-  ("M-g F" . consult-fd)
   ("M-s i" . consult-info)
   ("M-s m" . consult-man)
   ("M-s g" . consult-grep)
   ("M-s G" . consult-git-grep)
-  ("M-s r" . consult-ripgrep)
   ("M-g h" . consult-mode-command)
   ("C-x b" . consult-buffer)
   ("C-x 4 b" . consult-buffer-other-window)
@@ -263,46 +262,6 @@
 
 (use-package wgrep)
 
-(use-package eglot
-  :custom
-  (eglot-sync-connect 0)
-  (eglot-connect-timeout 10) ; NOTE: can just `C-g' out of it
-  (project-vc-extra-root-markers '(".project"))
-  :config
-  (setq eglot-stay-out-of '(flymake))
-  (add-hook
-   'eglot-managed-mode-hook
-   (lambda ()
-     ;; NOTE: don't clobber diagnostics backends
-     (add-hook 'flymake-diagnostic-functions 'eglot-flymake-backend nil t)
-     (flymake-mode 1)))
-  (defun em/eglot-toggle ()
-    "Toggles `eglot'."
-    (interactive)
-    (call-interactively
-     (if (eglot-managed-p)
-	 #'eglot-shutdown
-       #'eglot)))
-  :bind
-  ("<f5>" . em/eglot-toggle)
-  (:map eglot-mode-map
-	("<f6>" . eglot-format)
-	("<f7>" . eglot-rename)
-	("M-g s" . consult-eglot-symbols)))
-
-(unless (package-installed-p 'eglot-booster)
-  (package-vc-install "https://github.com/jdtsmith/eglot-booster.git"))
-(use-package eglot-booster
-  :config
-  (add-hook
-   'eglot-managed-mode-hook
-   (lambda ()
-     ;; NOTE: boost only if binary exists
-     (if (eglot-managed-p)
-	 (when (executable-find "emacs-lsp-booster")
-	   (eglot-booster-mode 1))
-       (eglot-booster-mode -1)))))
-
 ;;; Env
 
 (use-package savehist
@@ -318,17 +277,6 @@
 
 (use-package eat
   ;; NOTE: extant bug in `https://codeberg.org/akib/emacs-eat/issues/109'
-  :config
-  (defun em/choose-term-interface (cmd)
-    "Chooses a terminal interface among `em-terminal-modes-alist'."
-    (interactive
-     (list
-      (let ((choice
-	     (completing-read "Choose terminal interface: " em-terminal-modes-alist)))
-	(cdr (assoc choice em-terminal-modes-alist)))))
-    (call-interactively cmd))
-  :bind
-  ("<f9>" . em/choose-term-interface)
   :hook
   (eshell-mode . eat-eshell-mode)
   (eshell-mode . eat-eshell-visual-command-mode))
