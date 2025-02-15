@@ -235,6 +235,15 @@
   :config
   (spacious-padding-mode 1))
 
+(unless (package-installed-p 'ultra-scroll)
+  (package-vc-install "https://github.com/jdtsmith/ultra-scroll"))
+(use-package ultra-scroll
+  :init
+  (setq scroll-conservatively 101 ; important!
+        scroll-margin 0) 
+  :config
+  (ultra-scroll-mode 1))
+
 ;;; Editing
 
 (use-package wgrep)

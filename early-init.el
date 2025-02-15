@@ -48,10 +48,6 @@
 (setq modus-themes-to-toggle '(modus-operandi modus-vivendi))
 (load-theme 'modus-operandi)
 
-(setq scroll-preserve-screen-position t
-      scroll-conservatively 1
-      next-screen-context-lines 0)
-
 (menu-bar-mode -1)
 (setq display-time-default-load-average nil
       display-time-day-and-date t)
