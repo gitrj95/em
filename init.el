@@ -75,6 +75,7 @@
 (use-package vundo
   :demand t
   :bind ("C-x u" . vundo))
+
 (use-package avy
   :bind
   ("M-g c" . avy-goto-char-timer)
@@ -93,6 +94,9 @@
         ("C-x C-j" . consult-dir-jump-file)))
 
 ;;; Completion & Commands
+
+(use-package kkp
+  :config (global-kkp-mode 1))
 
 (use-package vertico
   :custom
