@@ -75,6 +75,7 @@
 (use-package vundo
   :demand t
   :bind ("C-x u" . vundo))
+
 (use-package avy
   :bind
   ("M-g c" . avy-goto-char-timer)
@@ -93,6 +94,11 @@
         ("C-x C-j" . consult-dir-jump-file)))
 
 ;;; Completion & Commands
+
+(use-package kkp
+  :config (global-kkp-mode 1)
+  (define-key key-translation-map (kbd "M-<backspace>") (kbd "M-DEL")) ; FIXME: hack
+  (define-key key-translation-map (kbd "M-<return>") (kbd "M-RET")))   ; FIXME: hack
 
 (use-package vertico
   :custom
