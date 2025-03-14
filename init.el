@@ -309,6 +309,8 @@
   (:map flymake-mode-map
 	("M-g d" . consult-flymake)))
 
+(unless (package-installed-p 'bookmark-view)
+  (package-vc-install "https://github.com/minad/bookmark-view"))
 (use-package bookmark-view
   :bind
   ("M-`" . bookmark-view-save))
