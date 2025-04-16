@@ -70,7 +70,9 @@
   :init
   (trail-mode 1)
   :bind
-  ("s-'" . trail-mark))
+  ("s-'" . trail-mark)
+  ("s-[" . trail-find-and-jump-previous)
+  ("s-]" . trail-find-and-jump-next))
 
 (use-package vundo
   :demand t
@@ -246,7 +248,7 @@
 (use-package ultra-scroll
   :init
   (setq scroll-conservatively 101 ; important!
-        scroll-margin 0) 
+        scroll-margin 0)
   :config
   (ultra-scroll-mode 1))
 
