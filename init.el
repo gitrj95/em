@@ -1,8 +1,6 @@
 ;;;; Em init
 ;;;; rj
 
-;;; Comms
-
 (let ((expanded-f (expand-file-name em-notes-directory)))
   (unless (file-directory-p expanded-f)
     (make-directory expanded-f)))
@@ -19,6 +17,12 @@
 
 (use-package org-present
   :defer t)
+
+(unless (package-installed-p 'corg)
+  (package-vc-install "https://github.com/isamert/corg.el"))
+(use-package corg
+  :init
+  (add-hook 'org-mode-hook #'corg-setup))
 
 (use-package denote
   :custom
@@ -39,6 +43,8 @@
    ("C-c n a" . denote-keywords-add)
    ("C-c n k" . denote-keywords-remove)))
 
+(use-package denote-org)
+
 (use-package consult-denote
   :init
   (consult-denote-mode 1)
@@ -46,7 +52,7 @@
   (("C-c n M-g" . consult-denote-find)
    ("C-c n M-s" . consult-denote-grep)))
 
-;;; Navigation
+(use-package wgrep)
 
 (setq isearch-lazy-count t
       search-ring-max 100
@@ -94,8 +100,6 @@
   (:map vertico-map
         ("C-x C-d" . consult-dir)
         ("C-x C-j" . consult-dir-jump-file)))
-
-;;; Completion & Commands
 
 (use-package kkp
   :config (global-kkp-mode 1)
@@ -220,8 +224,6 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
-;;; GUI
-
 (use-package circadian
   :config
   (setq circadian-themes '((:sunrise . modus-operandi)
@@ -251,12 +253,6 @@
         scroll-margin 0)
   :config
   (ultra-scroll-mode 1))
-
-;;; Editing
-
-(use-package wgrep)
-
-;;; Env
 
 (use-package savehist
   :init
@@ -288,6 +284,15 @@
 
 (use-package magit
   :bind ("C-x g" . magit))
+
+(use-package otpp
+  :after project
+  :init
+  ;; Enable `otpp-mode` globally
+  (otpp-mode 1)
+  ;; If you want to advice the commands in `otpp-override-commands`
+  ;; to be run in the current's tab (so, current project's) root directory
+  (otpp-override-mode 1))
 
 (use-package repeat
   :config (repeat-mode 1))
