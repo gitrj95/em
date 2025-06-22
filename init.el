@@ -103,8 +103,8 @@
 
 (use-package kkp
   :config (global-kkp-mode 1)
-  (define-key key-translation-map (kbd "M-<backspace>") (kbd "M-DEL")) ; FIXME: hack
-  (define-key key-translation-map (kbd "M-<return>") (kbd "M-RET")))   ; FIXME: hack
+  (define-key key-translation-map (kbd "M-<backspace>") (kbd "M-DEL")) ; HACK
+  (define-key key-translation-map (kbd "M-<return>") (kbd "M-RET")))   ; HACK: hack
 
 (use-package vertico
   :custom
