@@ -104,7 +104,7 @@
 (use-package kkp
   :config (global-kkp-mode 1)
   (define-key key-translation-map (kbd "M-<backspace>") (kbd "M-DEL")) ; HACK
-  (define-key key-translation-map (kbd "M-<return>") (kbd "M-RET")))   ; HACK: hack
+  (define-key key-translation-map (kbd "M-<return>") (kbd "M-RET")))   ; HACK
 
 (use-package vertico
   :custom
