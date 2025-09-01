@@ -275,6 +275,11 @@
   :config
   (add-hook 'compilation-filter-hook #'ansi-color-compilation-filter))
 
+(use-package breadcrumb
+  :init (breadcrumb-mode +1))
+
+(use-package dape)
+
 (use-package vc
   :bind
   (:map vc-prefix-map
