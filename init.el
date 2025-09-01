@@ -8,7 +8,7 @@
 (use-package org
   :custom
   (org-agenda-files `(,em-notes-directory))
-  (org-startup-indented 1)
+  (org-startup-indented +1)
   :config
   (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
   :bind
@@ -47,7 +47,7 @@
 
 (use-package consult-denote
   :init
-  (consult-denote-mode 1)
+  (consult-denote-mode +1)
   :bind
   (("C-c n M-g" . consult-denote-find)
    ("C-c n M-s" . consult-denote-grep)))
@@ -74,7 +74,7 @@
    '(xref-find-definitions xref-find-references org-open-at-point))
   (trail-ring-max 100)
   :init
-  (trail-mode 1)
+  (trail-mode +1)
   :bind
   ("s-'" . trail-mark)
   ("s-[" . trail-find-and-jump-previous)
@@ -102,7 +102,7 @@
         ("C-x C-j" . consult-dir-jump-file)))
 
 (use-package kkp
-  :config (global-kkp-mode 1)
+  :config (global-kkp-mode +1)
   (define-key key-translation-map (kbd "M-<backspace>") (kbd "M-DEL")) ; HACK
   (define-key key-translation-map (kbd "M-<return>") (kbd "M-RET")))   ; HACK
 
@@ -141,7 +141,7 @@
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package marginalia
-  :config (marginalia-mode 1))
+  :config (marginalia-mode +1))
 
 (use-package embark
   :custom
@@ -238,12 +238,12 @@
 
 (use-package hl-todo
   :config
-  (global-hl-todo-mode 1)
+  (global-hl-todo-mode +1)
   (add-hook 'flymake-diagnostic-functions #'hl-todo-flymake))
 
 (use-package spacious-padding
   :config
-  (spacious-padding-mode 1))
+  (spacious-padding-mode +1))
 
 (unless (package-installed-p 'ultra-scroll)
   (package-vc-install "https://github.com/jdtsmith/ultra-scroll"))
@@ -252,11 +252,11 @@
   (setq scroll-conservatively 101 ; important!
         scroll-margin 0)
   :config
-  (ultra-scroll-mode 1))
+  (ultra-scroll-mode +1))
 
 (use-package savehist
   :init
-  (savehist-mode 1)
+  (savehist-mode +1)
   (setq savehist-additional-variables
         (append savehist-additional-variables '(trail-ring vertico-repeat-history))))
 
@@ -289,13 +289,13 @@
   :after project
   :init
   ;; Enable `otpp-mode` globally
-  (otpp-mode 1)
+  (otpp-mode +1)
   ;; If you want to advice the commands in `otpp-override-commands`
   ;; to be run in the current's tab (so, current project's) root directory
-  (otpp-override-mode 1))
+  (otpp-override-mode +1))
 
 (use-package repeat
-  :config (repeat-mode 1))
+  :config (repeat-mode +1))
 
 (use-package proced
   :bind ("C-x P" . proced)
